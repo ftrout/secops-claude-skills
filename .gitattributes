@@ -1,0 +1,28 @@
+# Line-ending policy.
+#
+# Several skills parse or hash their example files byte for byte. If Git rewrites
+# line endings on checkout (the default on Windows, where core.autocrlf=true), those
+# bytes change and the results change with them: an email attachment stored as 7bit
+# text gets a different SHA-256, and a fixture's size no longer matches. Pin the
+# endings here so a clone behaves identically on Windows, Linux, and macOS.
+
+# Normalize every text file to LF in the repository and check it out as LF.
+* text=auto eol=lf
+
+# Shell scripts must be LF or the kernel fails to find the interpreter.
+*.sh text eol=lf
+
+# PowerShell is the Windows-side entry point; keep it to the platform convention.
+*.ps1 text eol=crlf
+
+# Byte-exact fixtures: never translate these. Email samples carry attachments whose
+# hashes are asserted, and the PE and archive samples are binary by nature.
+*.eml -text
+*.bin -text
+*.zip -text
+*.gz -text
+*.evtx -text
+*.pcap -text
+
+# Keep GitHub's language stats focused on the tooling rather than the sample data.
+skills/*/examples/** linguist-vendored
