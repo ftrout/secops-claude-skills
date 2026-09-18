@@ -1,16 +1,9 @@
 # Claude skills for Security Operations
 
 [![validate-skills](https://github.com/ftrout/secops-claude-skills/actions/workflows/validate.yml/badge.svg)](https://github.com/ftrout/secops-claude-skills/actions/workflows/validate.yml)
+[![16 skills](https://img.shields.io/badge/skills-16-informational)](#skills)
+[![Python 3.10+, no dependencies](https://img.shields.io/badge/python-3.10%2B%20%7C%20no%20dependencies-3776AB?logo=python&logoColor=white)](CONTRIBUTING.md#scripts-standard)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
-[![Dependencies: stdlib only](https://img.shields.io/badge/dependencies-stdlib%20only-success)](CONTRIBUTING.md#scripts-standard)
-[![Claude Code plugin](https://img.shields.io/badge/Claude%20Code-plugin-D97757?logo=anthropic&logoColor=white)](https://code.claude.com/docs/en/plugins)
-[![Skills](https://img.shields.io/badge/skills-16-informational)](#skills)
-[![Platforms](https://img.shields.io/badge/platforms-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey)](docs/installation.md)
-[![MITRE ATT&CK v17](https://img.shields.io/badge/MITRE%20ATT%26CK-v17-red)](https://attack.mitre.org/)
-[![Sigma](https://img.shields.io/badge/detections-Sigma-yellow)](https://sigmahq.io/)
-[![STIX 2.1](https://img.shields.io/badge/intel-STIX%202.1-purple)](https://oasis-open.github.io/cti-documentation/)
-[![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
 Advanced, customizable [Claude Code skills](https://code.claude.com/docs/en/skills) for
 security operations teams. Each skill encodes how an experienced analyst approaches a task,
@@ -18,6 +11,32 @@ ships the reference material Claude would otherwise guess at, and bundles small
 standard-library Python tools for the deterministic parts (parsing, scoring, formatting).
 
 Everything here is defensive. No exploit code, no offensive tooling, no credentials.
+
+## What it looks like
+
+You do not invoke these by name. You describe the work, and Claude picks the skill up from
+the description:
+
+> *pull the indicators out of this advisory and tell me what we should actually block*
+
+Claude runs the extractor over the text, drops the vendor's own domains and the
+connectivity-check hosts that reports always include, and returns something you can act on
+rather than a raw regex dump:
+
+| Indicator (defanged) | Type | Role | Confidence | Valid until |
+|---|---|---|---|---|
+| hxxps://cdn-sync[.]example/api/v2 | url | c2 | high | +30d |
+| 3a7b…4f1b | sha256 | dropped-file | high | indefinite |
+| billing[@]invoices-fake[.]com | email | phishing-sender | medium | +30d |
+
+It then names the next step and which skill owns it: retro-hunt the domain over 30 days of
+proxy and DNS, search the mail gateway for the sender, and hand the hash to static triage.
+Other prompts that land somewhere useful:
+
+- *is this alert worth waking someone up for* → severity with the evidence for and against
+- *why did this rule fire 400 times last night* → false-positive tuning, not just a rewrite
+- *write the exec summary for the incident we closed yesterday* → audience-appropriate draft
+- *this user's sign-ins look weird* → impossible travel, MFA fatigue, and legacy auth checks
 
 ## Skills
 
@@ -78,12 +97,16 @@ skills/<skill-name>/
 ├── SKILL.md            # workflow, output templates, pitfalls; this is what Claude reads
 ├── scripts/            # stdlib Python, --help, stdin/stdout, no network, no execution of samples
 ├── references/         # deep material loaded on demand; environment.md is your customization file
-├── assets/             # templates that end up in outputs
-└── examples/           # sample inputs and smoke.json used by CI
+├── assets/             # optional: templates that end up in outputs
+└── examples/           # optional: sample inputs and the smoke.json manifest CI runs
 ```
 
+Only `SKILL.md` and `references/environment.md` are required. The rest exist where they earn
+their place, so a skill stays small enough to load without burning context.
+
 `scripts/validate_skills.py` enforces the structure and `scripts/smoke_test.py` runs every
-bundled script against its examples. Both run in CI on Linux and Windows.
+bundled script against its examples. Both run in CI on Linux and Windows, against Python 3.10
+and 3.13.
 
 ## Safety
 
@@ -94,11 +117,20 @@ bundled script against its examples. Both run in CI on Linux and Windows.
   linter flags auto-containment without justification.
 - See [SECURITY.md](SECURITY.md) for reporting issues.
 
+On maturity: the bundled scripts are covered by CI on every push, across two operating systems
+and both ends of the supported Python range. The analytical guidance is reference material,
+not a substitute for your own judgment. Event IDs, log field names, and regulatory deadlines
+drift, and every environment has its own baseline of normal. Read a skill before you lean on
+it, and check the parts that touch your tooling.
+
 ## Contributing
 
 Read [CONTRIBUTING.md](CONTRIBUTING.md) for the authoring standard, copy
 `templates/skill-template/`, and open a pull request. Ideas that fit: runbooks for common
 business applications, additional SIEM platforms, region-specific regulatory checklists.
+
+Participation is covered by the [Code of Conduct](CODE_OF_CONDUCT.md). The rule most specific
+to this project: sanitize anything drawn from a real incident before you post it.
 
 ## License
 

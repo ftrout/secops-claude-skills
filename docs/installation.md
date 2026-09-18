@@ -16,7 +16,8 @@ Skills then appear as `/secops-skills:<skill-name>` and Claude will also invoke 
 automatically when a task matches a skill's description. Update later with
 `/plugin update secops-skills`.
 
-Pin to a tag or commit for production use; `main` moves.
+`main` moves. For production use, pin to a specific commit so a skill's behaviour cannot
+change under your analysts without you choosing it.
 
 ## 2. Copy into a skills directory
 

@@ -26,14 +26,19 @@ Several scripts read a JSON config so you can change behaviour without editing c
 
 | Skill | File | What it controls |
 |---|---|---|
-| ioc-extraction | `references/allowlist.txt` | Globs that are dropped from extraction (your domains, ranges) |
-| incident-triage | `scripts/weights.json` | Severity weights and tier cut-offs |
-| vulnerability-triage | `scripts/weights.json` | Score weights, tier thresholds, SLA days |
-| siem-query-authoring | `scripts/field_map.json` | Indicator type to field name per platform |
-| cloud-incident-investigation | `scripts/high_risk_events.json` | Event names that get flagged |
-| soar-playbook-design | `references/playbook-schema.md` | Required fields your linter enforces |
+| ioc-extraction | `references/allowlist.txt` | Globs dropped from extraction, so your own domains and ranges never become indicators |
+| incident-triage | `references/severity-weights.json` | Factor weights, tier cut-offs, and the floor/ceiling rules |
+| vulnerability-triage | `references/scoring-weights.json` | Score weights, tier thresholds, and SLA days |
+| siem-query-authoring | `references/field-map.json` | Indicator type to field name per platform, and safe chunk sizes |
+| cloud-incident-investigation | `references/high-risk-events.txt` | Control-plane event names that get flagged |
+| soar-playbook-design | `references/playbook-schema.md` | The contract `playbook_lint.py` enforces |
 
-Check each skill's README section "Customization" for the exact file names.
+Each of these is read at run time, so editing the file changes behaviour with no code change.
+Most scripts fall back to built-in defaults when the file is absent and merge your values over
+those defaults rather than replacing them wholesale, so you only need to state what differs.
+The exception is `field-map.json`, which is the mapping data itself rather than tuning:
+`ioc_to_query.py` will not guess a field name and exits with an error if it is missing.
+The "Customization" section at the end of each `SKILL.md` names the files that skill reads.
 
 ## 3. Editing SKILL.md
 
