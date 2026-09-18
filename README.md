@@ -1,5 +1,6 @@
 # Claude skills for Security Operations
 
+[![Claude Code plugin](https://img.shields.io/badge/Claude%20Code-plugin-D97757?logo=anthropic&logoColor=white)](https://code.claude.com/docs/en/plugins)
 [![validate-skills](https://github.com/ftrout/secops-claude-skills/actions/workflows/validate.yml/badge.svg)](https://github.com/ftrout/secops-claude-skills/actions/workflows/validate.yml)
 [![16 skills](https://img.shields.io/badge/skills-16-informational)](#skills)
 [![Python 3.10+, no dependencies](https://img.shields.io/badge/python-3.10%2B%20%7C%20no%20dependencies-3776AB?logo=python&logoColor=white)](CONTRIBUTING.md#scripts-standard)
