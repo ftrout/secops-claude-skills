@@ -1,0 +1,17 @@
+version: 2
+updates:
+  # The bundled skill scripts are standard library only, so there is no package
+  # ecosystem to track. The workflow actions are the one moving dependency, and
+  # letting them drift is how a pinned action ends up on a deprecated runtime.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    commit-message:
+      prefix: ci
+    labels:
+      - dependencies
+    groups:
+      actions:
+        patterns:
+          - "*"
