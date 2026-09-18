@@ -152,8 +152,9 @@ doubt.
 
 If an aggregated sink writes to BigQuery (table names like
 `cloudaudit_googleapis_com_activity`), the same questions become SQL. `protopayload_auditlog`
-is the column; nested fields are accessed with dots. See `siem-query-authoring`
-(`references/sql.md`) for general SQL patterns.
+is the column; nested fields are accessed with dots. For general SQL patterns see
+[the siem-query-authoring SQL reference](../../siem-query-authoring/references/sql.md),
+which covers Athena and BigQuery.
 
 ```sql
 SELECT timestamp, protopayload_auditlog.authenticationInfo.principalEmail AS principal,

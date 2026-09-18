@@ -117,10 +117,19 @@ Keep them from tripping it:
 
 ## Validation
 
-`scripts/validate_skills.py` checks: frontmatter present and parseable, `name` matches the
-directory, description length, presence of `references/environment.md`, that every relative
-path mentioned in SKILL.md exists, that every script compiles and responds to `--help`, and
-that no file contains obvious secrets. CI runs the same script.
+Three scripts gate a pull request, and CI runs all of them on Linux and Windows against
+Python 3.10 and 3.13:
+
+- `scripts/validate_skills.py` checks frontmatter is present and parseable, `name` matches the
+  directory, description length, presence of `references/environment.md`, that every relative
+  path mentioned in SKILL.md exists, that every script compiles and responds to `--help`, and
+  that no file contains obvious secrets.
+- `scripts/smoke_test.py` runs each skill's scripts against its `examples/smoke.json` manifest
+  and asserts the expected substrings appear in the output.
+- `scripts/check_docs.py` verifies that every relative link, heading anchor, and backticked
+  repo path in the documentation resolves. A skill's own docs must reference files in that
+  skill; pointing at a sibling skill's file requires a real relative link, so readers can
+  follow it.
 
 ## Conduct
 

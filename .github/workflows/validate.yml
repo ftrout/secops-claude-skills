@@ -21,3 +21,5 @@ jobs:
         run: python scripts/validate_skills.py
       - name: Smoke-test bundled scripts against examples
         run: python scripts/smoke_test.py
+      - name: Check documentation links and paths
+        run: python scripts/check_docs.py --quiet
