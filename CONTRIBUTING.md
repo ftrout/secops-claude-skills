@@ -88,6 +88,20 @@ Optional frontmatter that is welcome when it fits: `argument-hint`, `allowed-too
   file could hang the parser.
 - Windows and POSIX friendly (paths via `pathlib`, `encoding="utf-8", errors="replace"`).
 
+## Sample data standard
+
+Files under `examples/` are cloned onto analyst workstations that run endpoint protection.
+Keep them from tripping it:
+
+- No realistic attack command lines, download cradles, encoded PowerShell, or shellcode-like
+  blobs, even in "obviously fake" log rows. Describe them instead:
+  `powershell -w hidden -nop -c "[download cradle; redacted in sample data]"`.
+- No real malware, no real malicious hashes presented as samples, no live malicious URLs.
+  Use `.example` domains and RFC 5737 / RFC 3849 address ranges.
+- Reference emulation tests and techniques by name and ID; never embed the test body.
+- Detection regexes inside scripts may name suspicious tokens (that is their job), but keep
+  them in Python, not in shell one-liners or PowerShell, where AMSI scans the command line.
+
 ## References standard
 
 - `environment.md` is a fill-in-the-blanks file. Use obvious placeholders

@@ -1,4 +1,16 @@
-# secops-claude-skills
+# Claude skills for Security Operations
+
+[![validate-skills](https://github.com/ftrout/secops-claude-skills/actions/workflows/validate.yml/badge.svg)](https://github.com/ftrout/secops-claude-skills/actions/workflows/validate.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![Dependencies: stdlib only](https://img.shields.io/badge/dependencies-stdlib%20only-success)](CONTRIBUTING.md#scripts-standard)
+[![Claude Code plugin](https://img.shields.io/badge/Claude%20Code-plugin-D97757?logo=anthropic&logoColor=white)](https://code.claude.com/docs/en/plugins)
+[![Skills](https://img.shields.io/badge/skills-16-informational)](#skills)
+[![Platforms](https://img.shields.io/badge/platforms-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey)](docs/installation.md)
+[![MITRE ATT&CK v17](https://img.shields.io/badge/MITRE%20ATT%26CK-v17-red)](https://attack.mitre.org/)
+[![Sigma](https://img.shields.io/badge/detections-Sigma-yellow)](https://sigmahq.io/)
+[![STIX 2.1](https://img.shields.io/badge/intel-STIX%202.1-purple)](https://oasis-open.github.io/cti-documentation/)
+[![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
 Advanced, customizable [Claude Code skills](https://code.claude.com/docs/en/skills) for
 security operations teams. Each skill encodes how an experienced analyst approaches a task,

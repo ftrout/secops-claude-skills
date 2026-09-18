@@ -87,9 +87,55 @@ Markdown table template:
   skill, but do capture mutexes, named pipes, user agents, and registry keys as
   *host artifacts* with type `artifact`.
 
+## Worked example
+
+Input (from a vendor blog post the user pasted):
+
+> The loader beacons to hxxps://cdn-sync[.]example/api/v2 and drops `C:\Users\Public\svc.exe`
+> (SHA256 3a7b...4f1b). Victims received mail from billing[@]invoices-fake[.]com. The malware
+> checks connectivity to www.microsoft.com before running. Analysts can find samples on
+> bazaar.abuse.ch.
+
+Deliverable:
+
+```markdown
+**Source:** "Loader campaign" blog post, 2026-09-17  **Extracted:** 2026-09-17T14:02Z
+
+| Indicator (defanged) | Type | Role | Confidence | Valid until | Notes |
+|---|---|---|---|---|---|
+| hxxps://cdn-sync[.]example/api/v2 | url | c2 | high | +30d | Beacon endpoint; block full URL, hunt domain |
+| cdn-sync[.]example | domain | c2 | high | +90d | Actor-registered per report |
+| 3a7b...4f1b | sha256 | dropped-file | high | indefinite | Loader; add to EDR watchlist |
+| C:\Users\Public\svc.exe | windows_path | dropped-file | medium | n/a | Hunt only; path is generic |
+| billing[@]invoices-fake[.]com | email | phishing-sender | medium | +30d | Mail gateway retro-search 30d |
+
+Dropped as noise: www.microsoft.com (connectivity check), bazaar.abuse.ch (reference).
+
+**Actions**
+1. Retro-hunt proxy/DNS for the domain (30d) and EDR for the hash (90d): build the query with `siem-query-authoring`.
+2. Mail gateway: search sender 30d; report recipient list to `phishing-analysis` if any delivered.
+3. Block URL at proxy; do not sinkhole the domain until passive DNS confirms it is actor-owned.
+**Enrichment:** pending (no VT/GreyNoise access in this session).
+```
+
+The point of the example is the *shape*: every row carries a role, a confidence, and a
+lifetime, the noise is listed so the reader knows it was considered, and the actions name the
+skill that does the next step.
+
+## Hand-offs
+
+- Hashes and suspicious files: `malware-triage` for static analysis and YARA.
+- CVEs: `vulnerability-triage` for prioritization; a CVE is not blockable.
+- Host artifacts (paths, registry keys, mutexes): `detection-engineering` for a Sigma rule or
+  `threat-hunting` for a one-off hunt.
+- Retro-search queries across the SIEM: `siem-query-authoring`.
+- The TTPs described around the indicators: `mitre-attack-mapping` and `threat-intel-analysis`.
+
 ## Customization
 
 Teams should edit `references/environment.md` to list their own allow-listed domains/IP ranges
 (so they are never emitted as indicators), the exact CSV column order their SIEM lookup expects,
 and which enrichment sources they have API access to. The script reads an optional
-`references/allowlist.txt` (one pattern per line, globs allowed) and drops matches.
+`references/allowlist.txt` (one pattern per line, globs allowed) and drops matches. Add your
+corporate domains, mail domains, and public ranges there before the first real use; it is
+the single most effective way to stop your own infrastructure showing up in a blocklist.

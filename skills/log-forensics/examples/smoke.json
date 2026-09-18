@@ -1,0 +1,17 @@
+[
+  {
+    "script": "timeline_builder.py",
+    "args": ["examples/windows-security.csv", "examples/linux-auth.jsonl", "examples/web-access.log", "--map", "winsec=TimeCreated,SubjectUserName,EventID,Message,Computer", "--map", "auth=@timestamp,user,program,message,host", "--map", "web=", "--assume-tz=-04:00", "--format", "md"],
+    "expect": ["| 2026-09-15T17:58:02.000Z | winsec |", "| 2026-09-15T18:05:11.250Z | auth | web-01 | deploy | sshd |", "| 2026-09-15T18:04:31.000Z | web | 203.0.113.77 |  | POST 200 |", "| 2026-09-15T18:47:10.000Z | winsec | WS-FIN-07.corp.yourcompany.example | j.doe | 1102 |"]
+  },
+  {
+    "script": "timeline_builder.py",
+    "args": ["examples/windows-security.csv", "examples/linux-auth.jsonl", "--assume-tz=-04:00", "--format", "csv", "--grep", "powershell|useradd|1102", "--from", "2026-09-15T18:00:00Z", "--to", "2026-09-15T19:00:00Z"],
+    "expect": ["timestamp_utc,source,host,actor,action,detail", "2026-09-15T18:01:15.000Z,windows-security,WS-FIN-07.corp.yourcompany.example,j.doe,4688,", "2026-09-15T18:06:45.000Z,linux-auth,web-01,root,useradd,", "2026-09-15T18:47:10.000Z,windows-security,"]
+  },
+  {
+    "script": "timeline_builder.py",
+    "args": ["examples/windows-security.csv", "--map", "win=TimeCreated,TargetUserName,EventID,Message", "--assume-tz=-04:00", "--flag-gaps", "30", "--format", "csv"],
+    "expect": ["[gap],,,gap,no events for 2.7 h", "2026-09-15T21:30:00.000Z,win,FS-01.corp.yourcompany.example,j.doe,4634,"]
+  }
+]
