@@ -1,0 +1,87 @@
+name: Report a bug
+description: A bundled script fails, a skill gives wrong guidance, or Claude does not pick a skill up.
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For a security vulnerability in a bundled script, please use private reporting
+        instead of this form. See SECURITY.md.
+  - type: dropdown
+    id: skill
+    attributes:
+      label: Which skill?
+      options:
+        - cloud-incident-investigation
+        - detection-engineering
+        - identity-threat-investigation
+        - incident-report-writing
+        - incident-triage
+        - ioc-extraction
+        - log-forensics
+        - malware-triage
+        - mitre-attack-mapping
+        - phishing-analysis
+        - purple-team-exercise
+        - siem-query-authoring
+        - soar-playbook-design
+        - threat-hunting
+        - threat-intel-analysis
+        - vulnerability-triage
+        - Repository tooling (validator, smoke tests, install scripts)
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What kind of problem?
+      options:
+        - A bundled script errors or crashes
+        - A bundled script produces wrong output
+        - The skill's guidance is wrong or outdated
+        - Claude does not invoke the skill when it should
+        - Claude invokes the skill when it should not
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect, and what happened instead?
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Reproduction
+      description: >-
+        The exact command or the prompt you gave Claude. Please sanitize any real data
+        first: use .example domains and RFC 5737 addresses.
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: env
+    attributes:
+      label: Environment
+      description: Operating system, Python version, and how you installed the skills.
+      placeholder: |
+        OS: Windows 11
+        Python: 3.11.9
+        Installed via: /plugin install
+    validations:
+      required: true
+  - type: textarea
+    id: validator
+    attributes:
+      label: Validator and smoke test output
+      description: Output of `python scripts/validate_skills.py` and `python scripts/smoke_test.py`, if relevant.
+      render: shell
+  - type: checkboxes
+    id: sanitized
+    attributes:
+      label: Before submitting
+      options:
+        - label: This report contains no real customer data, credentials, or live malicious samples.
+          required: true

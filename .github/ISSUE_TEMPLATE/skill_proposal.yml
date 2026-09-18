@@ -1,0 +1,73 @@
+name: Propose a new skill
+description: Suggest a skill for a security operations task this repository does not cover yet.
+title: "[skill] "
+labels: ["new skill"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for proposing a skill. The bar here is that a skill should encode how an
+        experienced analyst thinks about a task, not just wrap a tool. Answering the
+        questions below is most of the design work.
+  - type: input
+    id: name
+    attributes:
+      label: Proposed skill name
+      description: Lowercase and hyphenated, matching the directory name.
+      placeholder: memory-forensics
+    validations:
+      required: true
+  - type: textarea
+    id: job
+    attributes:
+      label: What job does this do for an analyst?
+      description: The task, and what a good result looks like.
+      placeholder: >-
+        Triage a memory image to answer "was this host compromised and what ran", without
+        needing the analyst to remember which plugin answers which question.
+    validations:
+      required: true
+  - type: textarea
+    id: trigger
+    attributes:
+      label: When should Claude reach for it?
+      description: >-
+        The phrasings, artifacts, and situations that should trigger it, including cases
+        where the user does not name the task.
+    validations:
+      required: true
+  - type: textarea
+    id: wrong
+    attributes:
+      label: How does this task go wrong?
+      description: >-
+        The mistakes an experienced analyst would warn a junior about. This shapes the
+        skill more than the happy path does.
+    validations:
+      required: true
+  - type: textarea
+    id: tooling
+    attributes:
+      label: What deterministic parts could a bundled script handle?
+      description: >-
+        Parsing, scoring, normalizing, formatting. Remember scripts must be standard
+        library only so they run on a locked-down analyst workstation.
+  - type: dropdown
+    id: overlap
+    attributes:
+      label: Does this overlap an existing skill?
+      options:
+        - "No, this is a distinct task"
+        - "Partly, it should hand off to an existing skill"
+        - "It might be better as an addition to an existing skill"
+    validations:
+      required: true
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope check
+      options:
+        - label: This is defensive. It does not require exploit code, offensive tooling, or evasion techniques.
+          required: true
+        - label: I have read CONTRIBUTING.md.
+          required: true

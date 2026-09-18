@@ -1,0 +1,10 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Report a security vulnerability
+    url: https://github.com/ftrout/secops-claude-skills/security/advisories/new
+    about: >-
+      Please report vulnerabilities in a bundled script privately here rather than in a
+      public issue. See SECURITY.md for what to include.
+  - name: Claude Code documentation
+    url: https://code.claude.com/docs/en/skills
+    about: Questions about how skills and plugins work in Claude Code generally.

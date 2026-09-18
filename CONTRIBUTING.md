@@ -122,6 +122,11 @@ directory, description length, presence of `references/environment.md`, that eve
 path mentioned in SKILL.md exists, that every script compiles and responds to `--help`, and
 that no file contains obvious secrets. CI runs the same script.
 
+## Conduct
+
+Participation is governed by the [Code of Conduct](CODE_OF_CONDUCT.md). The part most
+specific to this project: sanitize anything drawn from real incidents before you post it.
+
 ## Licensing
 
 By contributing you agree your contribution is licensed under the repository's MIT license.
