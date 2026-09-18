@@ -1,10 +1,9 @@
 # Claude skills for Security Operations
 
-[![Claude Code plugin](https://img.shields.io/badge/Claude%20Code-plugin-D97757?logo=anthropic&logoColor=white)](https://code.claude.com/docs/en/plugins)
-[![validate-skills](https://github.com/ftrout/secops-claude-skills/actions/workflows/validate.yml/badge.svg)](https://github.com/ftrout/secops-claude-skills/actions/workflows/validate.yml)
-[![16 skills](https://img.shields.io/badge/skills-16-informational)](#skills)
-[![Python 3.10+, no dependencies](https://img.shields.io/badge/python-3.10%2B%20%7C%20no%20dependencies-3776AB?logo=python&logoColor=white)](CONTRIBUTING.md#scripts-standard)
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Claude Code plugin](https://img.shields.io/badge/Claude%20Code-Plugin-D97757?logo=anthropic&logoColor=white)](https://code.claude.com/docs/en/plugins)
+[![Validate Skills](https://github.com/ftrout/secops-claude-skills/actions/workflows/validate.yml/badge.svg)](https://github.com/ftrout/secops-claude-skills/actions/workflows/validate.yml)
+[![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)](CONTRIBUTING.md#scripts-standard)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 Advanced, customizable [Claude Code skills](https://code.claude.com/docs/en/skills) for
 security operations teams. Each skill encodes how an experienced analyst approaches a task,

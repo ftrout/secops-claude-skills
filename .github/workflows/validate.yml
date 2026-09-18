@@ -1,4 +1,4 @@
-name: validate-skills
+name: Validate Skills
 
 on:
   push:
