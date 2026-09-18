@@ -1,0 +1,41 @@
+UserPrincipalName,CreatedDateTime,IPAddress,Location,ResultType,AuthenticationRequirement,UserAgent,AppDisplayName,ClientAppUsed
+alice.dev@yourcompany.example,2026-09-01T08:02:11Z,203.0.113.10,"Seattle, Washington, US",0,multiFactorAuthentication,Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/128.0,Office 365 SharePoint Online,Browser
+alice.dev@yourcompany.example,2026-09-02T08:05:40Z,203.0.113.10,"Seattle, Washington, US",0,multiFactorAuthentication,Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/128.0,Microsoft Teams,Mobile Apps and Desktop clients
+alice.dev@yourcompany.example,2026-09-03T08:01:03Z,203.0.113.10,"Seattle, Washington, US",0,multiFactorAuthentication,Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/128.0,Office 365 Exchange Online,Browser
+alice.dev@yourcompany.example,2026-09-04T07:58:22Z,203.0.113.10,"Seattle, Washington, US",0,multiFactorAuthentication,Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/128.0,Office 365 SharePoint Online,Browser
+alice.dev@yourcompany.example,2026-09-08T08:00:15Z,203.0.113.10,"Seattle, Washington, US",0,multiFactorAuthentication,Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/128.0,Office 365 Exchange Online,Browser
+alice.dev@yourcompany.example,2026-09-12T13:10:44Z,203.0.113.10,"Seattle, Washington, US",0,multiFactorAuthentication,Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/128.0,OfficeHome,Browser
+alice.dev@yourcompany.example,2026-09-12T13:41:02Z,198.51.100.77,"Amsterdam, North Holland, NL",0,multiFactorAuthentication,Mozilla/5.0 (X11; Linux x86_64) Firefox/129.0,OfficeHome,Browser
+alice.dev@yourcompany.example,2026-09-12T13:43:19Z,198.51.100.77,"Amsterdam, North Holland, NL",0,singleFactorAuthentication,Mozilla/5.0 (X11; Linux x86_64) Firefox/129.0,Office 365 Exchange Online,Browser
+alice.dev@yourcompany.example,2026-09-12T13:52:08Z,198.51.100.77,"Amsterdam, North Holland, NL",0,singleFactorAuthentication,Mozilla/5.0 (X11; Linux x86_64) Firefox/129.0,Microsoft Graph,Mobile Apps and Desktop clients
+bob.finance@yourcompany.example,2026-09-01T09:12:00Z,203.0.113.44,"Chicago, Illinois, US",0,multiFactorAuthentication,Mozilla/5.0 (Windows NT 10.0; Win64; x64) Edge/128.0,Office 365 Exchange Online,Browser
+bob.finance@yourcompany.example,2026-09-03T09:15:30Z,203.0.113.44,"Chicago, Illinois, US",0,multiFactorAuthentication,Mozilla/5.0 (Windows NT 10.0; Win64; x64) Edge/128.0,Office 365 Exchange Online,Browser
+bob.finance@yourcompany.example,2026-09-05T09:03:12Z,203.0.113.44,"Chicago, Illinois, US",0,multiFactorAuthentication,Mozilla/5.0 (Windows NT 10.0; Win64; x64) Edge/128.0,Microsoft Teams,Mobile Apps and Desktop clients
+bob.finance@yourcompany.example,2026-09-13T22:01:05Z,192.0.2.150,"Lagos, Lagos, NG",500121,multiFactorAuthentication,Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/127.0,Office 365 Exchange Online,Browser
+bob.finance@yourcompany.example,2026-09-13T22:02:11Z,192.0.2.150,"Lagos, Lagos, NG",500121,multiFactorAuthentication,Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/127.0,Office 365 Exchange Online,Browser
+bob.finance@yourcompany.example,2026-09-13T22:03:20Z,192.0.2.150,"Lagos, Lagos, NG",500121,multiFactorAuthentication,Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/127.0,Office 365 Exchange Online,Browser
+bob.finance@yourcompany.example,2026-09-13T22:04:33Z,192.0.2.150,"Lagos, Lagos, NG",500121,multiFactorAuthentication,Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/127.0,Office 365 Exchange Online,Browser
+bob.finance@yourcompany.example,2026-09-13T22:05:48Z,192.0.2.150,"Lagos, Lagos, NG",500121,multiFactorAuthentication,Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/127.0,Office 365 Exchange Online,Browser
+bob.finance@yourcompany.example,2026-09-13T22:06:59Z,192.0.2.150,"Lagos, Lagos, NG",500121,multiFactorAuthentication,Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/127.0,Office 365 Exchange Online,Browser
+bob.finance@yourcompany.example,2026-09-13T22:08:10Z,192.0.2.150,"Lagos, Lagos, NG",0,multiFactorAuthentication,Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/127.0,Office 365 Exchange Online,Browser
+bob.finance@yourcompany.example,2026-09-13T22:09:30Z,192.0.2.150,"Lagos, Lagos, NG",0,multiFactorAuthentication,Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/127.0,Office 365 SharePoint Online,Browser
+carol.hr@yourcompany.example,2026-09-01T10:00:00Z,203.0.113.61,"Austin, Texas, US",0,multiFactorAuthentication,Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5) Safari/605.1.15,Office 365 Exchange Online,Browser
+carol.hr@yourcompany.example,2026-09-04T10:04:11Z,203.0.113.61,"Austin, Texas, US",0,multiFactorAuthentication,Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5) Safari/605.1.15,Workday,Browser
+carol.hr@yourcompany.example,2026-09-14T03:11:01Z,198.51.100.201,"Frankfurt, Hesse, DE",50126,singleFactorAuthentication,python-requests/2.32.3,Office 365 Exchange Online,Authenticated SMTP
+carol.hr@yourcompany.example,2026-09-14T03:11:04Z,198.51.100.201,"Frankfurt, Hesse, DE",50126,singleFactorAuthentication,python-requests/2.32.3,Office 365 Exchange Online,Authenticated SMTP
+carol.hr@yourcompany.example,2026-09-14T03:11:07Z,198.51.100.201,"Frankfurt, Hesse, DE",50126,singleFactorAuthentication,python-requests/2.32.3,Office 365 Exchange Online,Authenticated SMTP
+carol.hr@yourcompany.example,2026-09-14T03:11:10Z,198.51.100.201,"Frankfurt, Hesse, DE",0,singleFactorAuthentication,python-requests/2.32.3,Office 365 Exchange Online,Authenticated SMTP
+carol.hr@yourcompany.example,2026-09-14T03:12:30Z,198.51.100.201,"Frankfurt, Hesse, DE",0,singleFactorAuthentication,BAV2ROPC,Office 365 Exchange Online,IMAP4
+dave.eng@yourcompany.example,2026-09-01T07:30:00Z,203.0.113.88,"Denver, Colorado, US",0,multiFactorAuthentication,Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/128.0,Azure Portal,Browser
+dave.eng@yourcompany.example,2026-09-03T07:31:12Z,203.0.113.88,"Denver, Colorado, US",0,multiFactorAuthentication,Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/128.0,Azure Portal,Browser
+dave.eng@yourcompany.example,2026-09-08T07:29:45Z,203.0.113.88,"Denver, Colorado, US",0,multiFactorAuthentication,Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/128.0,Microsoft Teams,Mobile Apps and Desktop clients
+dave.eng@yourcompany.example,2026-09-10T18:02:00Z,203.0.113.89,"Denver, Colorado, US",50126,singleFactorAuthentication,Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/128.0,Azure Portal,Browser
+dave.eng@yourcompany.example,2026-09-10T18:02:40Z,203.0.113.89,"Denver, Colorado, US",0,multiFactorAuthentication,Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/128.0,Azure Portal,Browser
+dave.eng@yourcompany.example,2026-09-14T07:30:10Z,203.0.113.88,"Denver, Colorado, US",0,multiFactorAuthentication,Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/128.0,Azure Portal,Browser
+erin.sales@yourcompany.example,2026-09-01T12:00:00Z,203.0.113.120,"London, England, GB",0,multiFactorAuthentication,Mozilla/5.0 (iPhone; CPU iPhone OS 17_5) Safari/604.1,Microsoft Teams,Mobile Apps and Desktop clients
+erin.sales@yourcompany.example,2026-09-05T12:10:00Z,203.0.113.120,"London, England, GB",0,multiFactorAuthentication,Mozilla/5.0 (iPhone; CPU iPhone OS 17_5) Safari/604.1,Office 365 Exchange Online,Mobile Apps and Desktop clients
+erin.sales@yourcompany.example,2026-09-11T09:00:00Z,203.0.113.121,"Paris, Ile-de-France, FR",0,multiFactorAuthentication,Mozilla/5.0 (iPhone; CPU iPhone OS 17_5) Safari/604.1,Microsoft Teams,Mobile Apps and Desktop clients
+erin.sales@yourcompany.example,2026-09-11T17:30:00Z,203.0.113.120,"London, England, GB",0,multiFactorAuthentication,Mozilla/5.0 (iPhone; CPU iPhone OS 17_5) Safari/604.1,Office 365 Exchange Online,Mobile Apps and Desktop clients
+svc-scanner@yourcompany.example,2026-09-01T00:00:00Z,203.0.113.5,"Seattle, Washington, US",0,singleFactorAuthentication,Go-http-client/1.1,Microsoft Graph,Mobile Apps and Desktop clients
+svc-scanner@yourcompany.example,2026-09-08T00:00:00Z,203.0.113.5,"Seattle, Washington, US",0,singleFactorAuthentication,Go-http-client/1.1,Microsoft Graph,Mobile Apps and Desktop clients
+svc-scanner@yourcompany.example,2026-09-15T00:00:00Z,203.0.113.5,"Seattle, Washington, US",0,singleFactorAuthentication,Go-http-client/1.1,Microsoft Graph,Mobile Apps and Desktop clients

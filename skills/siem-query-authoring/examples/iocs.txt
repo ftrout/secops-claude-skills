@@ -1,0 +1,14 @@
+# Plain list export; type headers are optional, untyped lines are classified by shape
+# ipv4
+203.0.113.56
+198.51.100.23
+# domain
+evil-domain.example
+updates.evil-domain.example
+# sha256
+9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08
+# untyped lines below
+billing@invoices-fake.example
+hxxp://evil-domain[.]example/payload.php
+2001:db8::1
+this is not an indicator

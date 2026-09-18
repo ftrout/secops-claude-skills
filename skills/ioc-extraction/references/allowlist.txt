@@ -1,0 +1,7 @@
+# One glob pattern per line. Matching indicators are dropped by extract_iocs.py.
+# Add your own domains, mail domains, public IP ranges, and internal hostnames here
+# so they are never emitted as "indicators" when they appear in reports or logs.
+#
+# *.yourcompany.example
+# *@yourcompany.example
+# 203.0.113.*

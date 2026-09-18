@@ -1,0 +1,19 @@
+# This rule is intentionally broken so the linter has something to complain about.
+title: Suspicious Thing
+id: rule-0001
+status: production
+description: TODO
+date: 17/09/2026
+tags:
+  - attack.T1053
+  - attack.persist
+  - Attack.Execution
+logsource:
+  product: windows
+detection:
+  selection:
+    Image: '*'
+  selection2:
+    CommandLine|contians: 'schtasks'
+  condition: selection and selection3
+level: severe

@@ -1,0 +1,27 @@
+[
+  {
+    "script": "triage_score.py",
+    "args": ["--json", "examples/alert-edr-lsass.json", "--format", "md"],
+    "expect": ["**Severity: P2**", "EDR-2026-091734", "| confidence | 4 |"]
+  },
+  {
+    "script": "triage_score.py",
+    "args": ["--json", "examples/alert-signin-benign.json", "--format", "json"],
+    "expect": ["\"tier\": \"P4\"", "\"score\": 7.2", "\"alert_id\": \"IDP-2026-004411\""]
+  },
+  {
+    "script": "triage_score.py",
+    "args": ["--confidence", "5", "--impact", "5", "--asset-criticality", "5", "--spread", "4", "--data-sensitivity", "5"],
+    "expect": ["**Severity: P1**"]
+  },
+  {
+    "script": "triage_score.py",
+    "args": ["--confidence", "3", "--impact", "1", "--asset-criticality", "5", "--spread", "5", "--data-sensitivity", "5"],
+    "expect": ["**Severity: P3**", "raised to P2", "capped at P3"]
+  },
+  {
+    "script": "triage_score.py",
+    "args": ["--confidence", "9", "--impact", "1", "--asset-criticality", "1", "--spread", "1", "--data-sensitivity", "1"],
+    "exit": 2
+  }
+]

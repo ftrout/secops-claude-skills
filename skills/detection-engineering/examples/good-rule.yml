@@ -1,0 +1,46 @@
+title: Scheduled Task Created From User-Writable Temp Directory
+id: 3f1c9a52-7b0e-4d8a-9c21-5e6f0a1b2c3d
+status: experimental
+description: |
+  Detects schtasks.exe creating a scheduled task whose action points at an executable or
+  script under a user-writable temp directory. Malware droppers commonly stage a payload
+  in %TEMP% and register a task for persistence; legitimate installers rarely register
+  tasks that keep running from a temp path after installation.
+references:
+  - https://attack.mitre.org/techniques/T1053/005/
+  - https://lolbas-project.github.io/lolbas/Binaries/Schtasks/
+author: SOC Detection Engineering (yourcompany.example)
+date: 2026-09-17
+modified: 2026-09-17
+tags:
+  - attack.persistence
+  - attack.execution
+  - attack.t1053.005
+  - detection.threat_hunting
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection_img:
+    Image|endswith: '\schtasks.exe'
+    CommandLine|contains: '/create'
+  selection_path:
+    CommandLine|contains:
+      - '\AppData\Local\Temp\'
+      - '\Windows\Temp\'
+      - '\Users\Public\'
+      - '\ProgramData\'
+  filter_installers:
+    ParentImage|endswith:
+      - '\msiexec.exe'
+      - '\setup.exe'
+  condition: all of selection_* and not filter_installers
+fields:
+  - ComputerName
+  - User
+  - ParentImage
+  - CommandLine
+falsepositives:
+  - Software installers that register update tasks from a temp extraction directory
+  - Administrators testing scripts from their Downloads or Temp folder
+level: medium

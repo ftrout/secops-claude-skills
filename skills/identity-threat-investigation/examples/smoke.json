@@ -1,0 +1,17 @@
+[
+  {
+    "script": "signin_analyzer.py",
+    "args": ["examples/signins-sample.csv", "--format", "md"],
+    "expect": ["Impossible travel:** US (203.0.113.10)", "MFA failure burst:** 6 MFA failures", "**success at 2026-09-13T22:08:10Z**", "Legacy auth success:** IMAP4", "Failed-then-success from new IP:** 3 failure(s) from 198.51.100.201"]
+  },
+  {
+    "script": "signin_analyzer.py",
+    "args": ["examples/signins-sample.csv", "--format", "json", "--user", "alice"],
+    "expect": ["\"impossible_travel\"", "\"to_country\": \"NL\"", "\"score\": 6"]
+  },
+  {
+    "script": "signin_analyzer.py",
+    "args": ["examples/signins-sample.csv", "--format", "md", "--col", "user=UserPrincipalName", "--col", "timestamp=CreatedDateTime", "--mfa-burst", "3", "--top", "3"],
+    "expect": ["MFA failure burst:** 6 MFA failures", "bob.finance@yourcompany.example"]
+  }
+]

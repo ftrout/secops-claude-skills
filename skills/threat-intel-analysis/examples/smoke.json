@@ -1,0 +1,17 @@
+[
+  {
+    "script": "stix_summary.py",
+    "args": ["examples/sample_bundle.json"],
+    "expect": ["**TLP:** TLP:AMBER", "**FROST HERON**", "| T1566.001 | Phishing: Spearphishing Attachment | initial-access |", "update-invoice-portal[.]example", "203[.]0[.]113[.]56", "intrusion-set -attributed-to-> threat-actor", "unmarked objects: 28"]
+  },
+  {
+    "script": "stix_summary.py",
+    "args": ["examples/sample_bundle.json", "--format", "json", "--refang"],
+    "expect": ["\"object_count\": 39", "\"update-invoice-portal.example\"", "\"T1003.001\"", "\"CVE-2024-3400\"", "\"indicators_unparsed\": 1"]
+  },
+  {
+    "script": "stix_summary.py",
+    "args": ["examples/sample_bundle.json", "--indicators-only", "--max-list", "1"],
+    "expect": ["### ipv4 (2)", "... 1 more (raise --max-list)"]
+  }
+]

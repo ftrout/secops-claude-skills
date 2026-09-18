@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0",
+  "id": "pb-phishing-triage",
+  "name": "User-reported phishing triage",
+  "version": "1.3.0",
+  "owner": "soc-automation@yourcompany.example",
+  "description": "Enrich a user-reported email, score it, auto-close obvious clean mail, open a case for the rest, and offer a gated mailbox purge when the message reached more than one recipient. Enrichment only; the purge is the only containment and it is human-approved.",
+  "tags": ["email", "phishing", "tier1"],
+  "trigger": {
+    "type": "alert",
+    "source": "email-gateway:user-reported",
+    "filter": "report_source == 'report-button' and mailbox_domain in ('yourcompany.example')",
+    "dedupe_key": "message_id",
+    "rate_limit": {"max_runs": 200, "window_minutes": 60},
+    "kill_switch": "soar:disable pb-phishing-triage (documented in runbook RB-014)"
+  },
+  "inputs": [
+    {"name": "message_id", "type": "string", "required": true},
+    {"name": "reporter", "type": "string", "required": true},
+    {"name": "eml", "type": "attachment", "required": true, "notes": "attacker-controlled; parse, never render or execute"}
+  ],
+  "start": "parse",
+  "steps": [
+    {"id": "parse", "name": "Parse headers, URLs, attachments", "type": "transform",
+     "action": "email.parse_headers", "integration": "internal-parser",
+     "inputs": {"eml": "{{inputs.eml}}", "defang": true},
+     "timeout_seconds": 30, "on_failure": "open_case", "next": "enrich"},
+    {"id": "enrich", "name": "Enrich sender domain, URLs, attachment hashes", "type": "enrichment",
+     "action": "ti.bulk_lookup", "integration": "threat-intel-platform",
+     "inputs": {"domains": "{{parse.sender_domains}}", "urls": "{{parse.urls}}", "hashes": "{{parse.attachment_hashes}}"},
+     "timeout_seconds": 120, "retries": 1, "on_failure": "open_case", "next": "blast_radius"},
+    {"id": "blast_radius", "name": "Count recipients of same message / sender / URL host", "type": "enrichment",
+     "action": "mail.search_delivered", "integration": "email-gateway",
+     "inputs": {"message_id": "{{inputs.message_id}}", "sender": "{{parse.envelope_from}}", "url_hosts": "{{parse.url_hosts}}", "lookback_hours": 72},
+     "timeout_seconds": 120, "on_failure": "open_case", "next": "score"},
+    {"id": "score", "name": "Score verdict", "type": "transform",
+     "action": "phish.score", "integration": "internal-scoring",
+     "inputs": {"auth_results": "{{parse.auth}}", "enrichment": "{{enrich.results}}", "recipients": "{{blast_radius.count}}"},
+     "timeout_seconds": 10, "on_failure": "open_case", "next": "route"},
+    {"id": "route", "name": "Route on verdict", "type": "decision",
+     "branches": [
+       {"when": "score.verdict == 'clean' and score.confidence >= 0.9 and blast_radius.count <= 1", "next": "close_clean"},
+       {"when": "score.verdict == 'malicious' and blast_radius.count > 1", "next": "open_case_high"},
+       {"when": "score.verdict == 'malicious'", "next": "open_case"}
+     ],
+     "default": "open_case", "on_failure": "open_case"},
+    {"id": "close_clean", "name": "Thank reporter and close", "type": "notification",
+     "action": "mail.send_template", "integration": "email-gateway",
+     "inputs": {"to": "{{inputs.reporter}}", "template": "phish-report-clean"},
+     "timeout_seconds": 30, "on_failure": "continue", "next": "done"},
+    {"id": "open_case", "name": "Open case with parsed evidence (analyst decides)", "type": "ticketing",
+     "action": "case.create", "integration": "case-management",
+     "inputs": {"title": "Reported phish: {{parse.subject_safe}}", "severity": "P3", "artifacts": "{{parse}}", "enrichment": "{{enrich.results}}"},
+     "timeout_seconds": 60, "retries": 2, "idempotency_key": "case:{{inputs.message_id}}", "on_failure": "escalate", "next": "done"},
+    {"id": "open_case_high", "name": "Open P2 case and notify tier 2", "type": "ticketing",
+     "action": "case.create", "integration": "case-management",
+     "inputs": {"title": "Phish campaign ({{blast_radius.count}} recipients): {{parse.subject_safe}}", "severity": "P2", "artifacts": "{{parse}}", "enrichment": "{{enrich.results}}", "recipients": "{{blast_radius.recipients}}"},
+     "timeout_seconds": 60, "retries": 2, "idempotency_key": "case:{{inputs.message_id}}", "on_failure": "escalate", "next": "purge_approval"},
+    {"id": "purge_approval", "name": "Ask tier 2 to approve purge from all mailboxes", "type": "approval",
+     "approvers": ["soc-tier2-oncall"], "timeout_minutes": 60, "on_timeout": "done", "on_reject": "done",
+     "prompt": "Purge message {{inputs.message_id}} from {{blast_radius.count}} mailboxes? Sender {{parse.envelope_from_defanged}}. Evidence in case {{open_case_high.case_id}}.",
+     "on_failure": "escalate", "next": "purge"},
+    {"id": "purge", "name": "Soft-delete message from all recipient mailboxes", "type": "containment",
+     "action": "mail.purge_message", "integration": "email-gateway",
+     "inputs": {"message_id": "{{inputs.message_id}}", "recipients": "{{blast_radius.recipients}}", "mode": "soft-delete"},
+     "timeout_seconds": 300, "idempotency_key": "purge:{{inputs.message_id}}", "dry_run_supported": true,
+     "rollback": {"action": "mail.restore_message", "inputs": {"message_id": "{{inputs.message_id}}", "recipients": "{{blast_radius.recipients}}"}, "window_days": 30},
+     "on_failure": "escalate", "next": "done"},
+    {"id": "done", "name": "End", "type": "end"}
+  ],
+  "metrics": ["runs_per_day", "auto_closed_ratio", "median_time_to_case", "purge_requests", "purge_approval_rate", "analyst_reopen_rate_of_auto_closed"],
+  "testing": {
+    "dry_run_supported": true,
+    "test_cases": [
+      {"name": "clean newsletter", "input": "examples/phish-clean.eml", "expect_path": ["parse", "enrich", "blast_radius", "score", "route", "close_clean", "done"]},
+      {"name": "credential harvest to 12 users", "input": "examples/phish-campaign.eml", "expect_path": ["parse", "enrich", "blast_radius", "score", "route", "open_case_high", "purge_approval"]},
+      {"name": "TI platform down", "fault": "enrich:timeout", "expect_path": ["parse", "enrich", "open_case", "done"]}
+    ]
+  }
+}

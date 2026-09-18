@@ -1,0 +1,18 @@
+{
+  "$schema": "https://code.claude.com/schemas/marketplace.json",
+  "name": "secops-claude-skills",
+  "description": "Claude skills for security operations teams",
+  "owner": {
+    "name": "Frank Trout",
+    "url": "https://github.com/ftrout"
+  },
+  "plugins": [
+    {
+      "name": "secops-skills",
+      "displayName": "SecOps Skills",
+      "description": "Triage, detection engineering, threat hunting, phishing/malware analysis, forensics, threat intel, vulnerability triage, cloud and identity investigations, incident reporting.",
+      "source": "./",
+      "category": "security"
+    }
+  ]
+}

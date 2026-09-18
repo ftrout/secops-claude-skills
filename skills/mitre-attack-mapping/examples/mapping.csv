@@ -1,0 +1,12 @@
+technique_id,tactic,score,comment,color
+T1566.001,initial-access,3,"Invoice-themed ISO attachment delivered to 4 users (mail gateway, 2026-09-14 08:12Z)",
+T1204.002,execution,3,"User opened the LNK inside the ISO; parent explorer.exe -> cmd.exe (EDR)",
+T1059.001,execution,3,"Encoded PowerShell download cradle; -enc argument decoded to Invoke-WebRequest",
+T1105,command-and-control,3,"Second stage fetched from 203.0.113.56 over HTTPS (proxy log)",
+T1547.001,persistence,2,"Run key HKCU\Software\Microsoft\Windows\CurrentVersion\Run\Updater (Sysmon 13)",
+T1027,defense-evasion,2,"Base64 + string reversal in the loader; observed, not inferred",
+T1082,discovery,1,"systeminfo and whoami /all executed within 30 s of first beacon",
+T1087.002,discovery,1,"net group ""domain admins"" /domain",
+T1071.001,command-and-control,3,"Beacon over HTTPS to evil-domain.example every 60 s with 20% jitter",
+T1003.001,credential-access,2,"comsvcs.dll MiniDump of lsass.exe (EDR blocked)",
+T1021.001,lateral-movement,1,"Single RDP logon to FS01 from the patient-zero host; possibly admin activity, low confidence",

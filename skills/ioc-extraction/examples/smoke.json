@@ -1,0 +1,22 @@
+[
+  {
+    "script": "extract_iocs.py",
+    "args": ["examples/sample-report.txt", "--format", "json", "--keep-private"],
+    "expect": ["evil-domain.example/payload.php", "203.0.113.56", "CVE-2024-3400", "billing@invoices-fake.com"]
+  },
+  {
+    "script": "extract_iocs.py",
+    "args": ["examples/sample-report.txt", "--format", "json"],
+    "expect": ["evil-domain.example/payload.php", "HKCU\\\\Software\\\\Microsoft\\\\Windows\\\\CurrentVersion\\\\Run\\\\Updater"]
+  },
+  {
+    "script": "extract_iocs.py",
+    "args": ["examples/sample-report.txt", "--format", "stix", "--keep-private"],
+    "expect": ["\"type\": \"bundle\"", "[ipv4-addr:value = '203.0.113.56']"]
+  },
+  {
+    "script": "defang.py",
+    "args": ["--defang", "examples/sample-report.txt"],
+    "expect": ["hxxp[://]evil-domain[.]example", "203[.]0[.]113[.]56"]
+  }
+]

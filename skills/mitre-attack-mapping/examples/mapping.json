@@ -1,0 +1,17 @@
+{
+  "source": "Vendor report: 'Operation Example' (fictional), mapped 2026-09-15",
+  "attack_version": "17",
+  "techniques": [
+    {"technique_id": "T1190", "tactic": "initial-access", "score": 3, "comment": "Exploitation of an internet-facing VPN appliance per report section 2"},
+    {"technique_id": "T1505.003", "tactic": "persistence", "score": 3, "comment": "Web shell dropped on the appliance"},
+    {"technique_id": "T1078.002", "tactic": "persistence", "score": 2, "comment": "Domain account reused for later access"},
+    {"technique_id": "T1078.002", "tactic": "defense-evasion", "score": 2, "comment": "Same account; listed under both tactics the report supports"},
+    {"technique_id": "T1003.006", "tactic": "credential-access", "score": 3, "comment": "DCSync from a non-DC host"},
+    {"technique_id": "T1021.002", "tactic": "lateral-movement", "score": 2, "comment": "SMB admin share plus PsExec-style service creation"},
+    {"technique_id": "T1569.002", "tactic": "execution", "score": 2, "comment": "Service execution on remote hosts"},
+    {"technique_id": "T1560.001", "tactic": "collection", "score": 2, "comment": "7-Zip archives staged under C:\\ProgramData"},
+    {"technique_id": "T1567.002", "tactic": "exfiltration", "score": 3, "comment": "rclone to a cloud storage provider"},
+    {"technique_id": "T1486", "tactic": "impact", "score": 3, "comment": "Encryption of file servers"},
+    {"technique_id": "T1490", "tactic": "impact", "score": 3, "comment": "vssadmin delete shadows"}
+  ]
+}

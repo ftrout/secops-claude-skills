@@ -1,0 +1,10 @@
+{
+  "incident": "INC-2026-0093",
+  "events": [
+    {"time": "2026-09-14T07:42:13Z", "log_source": "Email gateway", "user": "attacker@invoice-portal-secure.example", "description": "Phishing email delivered to 12 recipients", "reference": "MT-88213"},
+    {"time": "2026-09-14T09:05:40Z", "log_source": "Proxy", "user": "j.doe", "description": "Clicked phishing link", "reference": "Proxy line 4471820"},
+    {"time": "2026-09-14T15:32:10Z", "log_source": "EDR", "user": "analyst.k", "description": "Host isolated", "reference": "EDR action log"},
+    {"time": "2026-09-14T09:06:55Z", "log_source": "Entra ID", "user": "j.doe", "description": "Sign-in from new ASN, MFA push approved (added after sign-in log review)", "reference": "correlationId 0f3c..."},
+    {"time": "2026-09-16T09:00:00Z", "log_source": "SOC", "user": "ic.lead", "description": "Incident closed; lessons-learned scheduled", "reference": "INC-2026-0093"}
+  ]
+}

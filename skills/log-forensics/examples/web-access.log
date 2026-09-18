@@ -1,0 +1,9 @@
+# Synthetic Apache combined log used to test timeline_builder.py text mode
+203.0.113.77 - - [15/Sep/2026:18:03:10 +0000] "GET /login HTTP/1.1" 200 2311 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+203.0.113.77 - - [15/Sep/2026:18:03:15 +0000] "POST /login HTTP/1.1" 302 0 "https://www.yourcompany.example/login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+203.0.113.77 - - [15/Sep/2026:18:03:44 +0000] "GET /admin/upload HTTP/1.1" 200 1840 "https://www.yourcompany.example/admin" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+203.0.113.77 - - [15/Sep/2026:18:04:02 +0000] "POST /admin/upload HTTP/1.1" 200 96 "https://www.yourcompany.example/admin/upload" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+203.0.113.77 - - [15/Sep/2026:18:04:20 +0000] "GET /uploads/img_2026.php HTTP/1.1" 200 12 "-" "python-requests/2.31"
+203.0.113.77 - - [15/Sep/2026:18:04:31 +0000] "POST /uploads/img_2026.php HTTP/1.1" 200 512 "-" "python-requests/2.31"
+198.51.100.9 - - [15/Sep/2026:18:04:35 +0000] "GET /index.html HTTP/1.1" 200 5120 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5) Safari/605.1.15"
+203.0.113.77 - - [15/Sep/2026:18:06:38 +0000] "POST /uploads/img_2026.php HTTP/1.1" 200 4096 "-" "python-requests/2.31"

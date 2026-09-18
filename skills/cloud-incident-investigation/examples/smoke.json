@@ -1,0 +1,17 @@
+[
+  {
+    "script": "cloudtrail_summarize.py",
+    "args": ["examples/cloudtrail-sample.json", "--format", "md"],
+    "expect": ["StopLogging", "CreateAccessKey", "PutBucketPolicy", "console sign-in (MFA: no)", "`BackupOperator` -> `arn:aws:iam::123456789012:role/OrgAdmin`"]
+  },
+  {
+    "script": "cloudtrail_summarize.py",
+    "args": ["examples/cloudtrail-sample.json", "--format", "json", "--identity", "OrgAdmin"],
+    "expect": ["\"records\": 4", "\"secret_reads\": 2", "GetSecretValue"]
+  },
+  {
+    "script": "cloudtrail_summarize.py",
+    "args": ["examples/cloudtrail-sample.json", "--format", "json", "--from", "2026-09-14T03:00:00Z", "--ip", "203.0.113.77"],
+    "expect": ["\"records\": 3", "python-requests/2.32.3", "Client.UnauthorizedOperation"]
+  }
+]

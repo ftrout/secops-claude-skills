@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.0",
+  "id": "pb-malicious-ip-containment",
+  "name": "Malicious external IP: enrich, decide, block at perimeter",
+  "version": "2.1.0",
+  "owner": "soc-automation@yourcompany.example",
+  "description": "For a high-confidence outbound C2 alert, enrich the destination, confirm it is not owned or allow-listed, count internal talkers, and block at the perimeter. Blocking is auto-approved only for a single-IP, high-confidence, non-allow-listed destination with a 24 h expiry; anything else requires network on-call approval. Internal host isolation is deliberately out of scope and handed to the compromised-host playbook.",
+  "tags": ["network", "containment", "c2"],
+  "trigger": {
+    "type": "alert",
+    "source": "siem:rule:outbound-c2-high-confidence",
+    "filter": "alert.confidence >= 0.9 and alert.direction == 'outbound'",
+    "dedupe_key": "destination_ip",
+    "rate_limit": {"max_runs": 20, "window_minutes": 60},
+    "kill_switch": "soar:disable pb-malicious-ip-containment; firewall object group SOAR-AUTO-BLOCK can be emptied by network on-call"
+  },
+  "inputs": [
+    {"name": "destination_ip", "type": "ipv4|ipv6", "required": true},
+    {"name": "source_hosts", "type": "list[string]", "required": true},
+    {"name": "alert_id", "type": "string", "required": true}
+  ],
+  "start": "sanity",
+  "steps": [
+    {"id": "sanity", "name": "Reject private, reserved, or corporate-owned IPs", "type": "transform",
+     "action": "net.classify_ip", "integration": "internal-ipam",
+     "inputs": {"ip": "{{inputs.destination_ip}}", "corporate_ranges": "{{config.corporate_ranges}}"},
+     "timeout_seconds": 10, "on_failure": "abort", "next": "is_blockable"},
+    {"id": "is_blockable", "name": "Stop if the IP is ours or non-routable", "type": "decision",
+     "branches": [{"when": "sanity.classification in ('private', 'reserved', 'corporate', 'partner')", "next": "notify_only"}],
+     "default": "enrich", "on_failure": "abort"},
+    {"id": "enrich", "name": "Reputation, ASN, hosting type, allow-list check", "type": "enrichment",
+     "action": "ti.ip_lookup", "integration": "threat-intel-platform",
+     "inputs": {"ip": "{{inputs.destination_ip}}", "allowlist": "references/allowlist"},
+     "timeout_seconds": 60, "retries": 1, "on_failure": "request_approval", "next": "talkers"},
+    {"id": "talkers", "name": "Count internal hosts that reached the IP in 7 days", "type": "enrichment",
+     "action": "siem.count_by_source", "integration": "siem",
+     "inputs": {"destination_ip": "{{inputs.destination_ip}}", "lookback_days": 7},
+     "timeout_seconds": 120, "on_failure": "request_approval", "next": "decide"},
+    {"id": "decide", "name": "Auto-block only the narrow, safe case", "type": "decision",
+     "branches": [
+       {"when": "enrich.allowlisted == true", "next": "notify_only"},
+       {"when": "enrich.shared_hosting == true or enrich.cdn == true or enrich.cloud_provider == true", "next": "request_approval"},
+       {"when": "talkers.count > 5", "next": "request_approval"},
+       {"when": "enrich.malicious_score >= 0.9 and talkers.count <= 5", "next": "auto_block"}
+     ],
+     "default": "request_approval", "on_failure": "request_approval"},
+    {"id": "auto_block", "name": "Block single IP at perimeter for 24 h", "type": "containment",
+     "action": "firewall.add_to_group", "integration": "perimeter-firewall",
+     "inputs": {"group": "SOAR-AUTO-BLOCK", "ip": "{{inputs.destination_ip}}", "ttl_hours": 24, "comment": "{{inputs.alert_id}}"},
+     "auto": {
+       "enabled": true,
+       "justification": "Single non-allow-listed external IP with malicious score >= 0.9 reached by at most 5 hosts; block auto-expires after 24 h; group is emptied by the kill switch; false-positive cost is one unreachable external IP for a day.",
+       "scope_limit": {"max_targets": 1, "exclude_classifications": ["corporate", "partner", "cdn", "cloud_provider", "shared_hosting"], "ttl_hours_max": 24}
+     },
+     "timeout_seconds": 60, "idempotency_key": "block:{{inputs.destination_ip}}", "dry_run_supported": true,
+     "rollback": {"action": "firewall.remove_from_group", "inputs": {"group": "SOAR-AUTO-BLOCK", "ip": "{{inputs.destination_ip}}"}, "auto_expire_hours": 24},
+     "on_failure": "request_approval", "next": "record"},
+    {"id": "request_approval", "name": "Ask network on-call to approve block", "type": "approval",
+     "approvers": ["network-oncall", "soc-tier2-oncall"], "timeout_minutes": 30, "on_timeout": "notify_only", "on_reject": "notify_only",
+     "prompt": "Block {{inputs.destination_ip}} ({{enrich.asn}}, {{enrich.hosting_type}}) at perimeter? {{talkers.count}} internal hosts reached it in 7 days. Alert {{inputs.alert_id}}.",
+     "on_failure": "notify_only", "next": "manual_block"},
+    {"id": "manual_block", "name": "Block IP at perimeter (approved)", "type": "containment",
+     "action": "firewall.add_to_group", "integration": "perimeter-firewall",
+     "inputs": {"group": "SOAR-APPROVED-BLOCK", "ip": "{{inputs.destination_ip}}", "ttl_hours": 168, "comment": "{{inputs.alert_id}} approved by {{request_approval.approver}}"},
+     "timeout_seconds": 60, "idempotency_key": "block:{{inputs.destination_ip}}", "dry_run_supported": true,
+     "rollback": {"action": "firewall.remove_from_group", "inputs": {"group": "SOAR-APPROVED-BLOCK", "ip": "{{inputs.destination_ip}}"}},
+     "on_failure": "escalate", "next": "record"},
+    {"id": "notify_only", "name": "Post findings to SOC channel and case, no block", "type": "notification",
+     "action": "chat.post", "integration": "chat",
+     "inputs": {"channel": "#soc-alerts", "message": "No block applied for {{inputs.destination_ip}}: {{sanity.classification}} / {{enrich.summary}}. Alert {{inputs.alert_id}}."},
+     "timeout_seconds": 30, "on_failure": "continue", "next": "handoff"},
+    {"id": "record", "name": "Record block, indicator, and expiry on the case", "type": "ticketing",
+     "action": "case.add_note", "integration": "case-management",
+     "inputs": {"alert_id": "{{inputs.alert_id}}", "note": "Blocked {{inputs.destination_ip}}; rollback: remove from group; expiry per group TTL."},
+     "timeout_seconds": 60, "retries": 2, "idempotency_key": "note:block:{{inputs.alert_id}}", "on_failure": "continue", "next": "handoff"},
+    {"id": "handoff", "name": "Hand internal hosts to compromised-host playbook", "type": "notification",
+     "action": "soar.trigger_playbook", "integration": "soar",
+     "inputs": {"playbook": "pb-compromised-host-triage", "hosts": "{{inputs.source_hosts}}", "alert_id": "{{inputs.alert_id}}"},
+     "timeout_seconds": 30, "on_failure": "escalate", "next": "done"},
+    {"id": "done", "name": "End", "type": "end"}
+  ],
+  "metrics": ["auto_block_count", "approved_block_count", "blocks_rolled_back", "approval_median_minutes", "false_positive_blocks_reported", "hosts_handed_off"],
+  "testing": {
+    "dry_run_supported": true,
+    "test_cases": [
+      {"name": "high-confidence single VPS IP", "input": {"destination_ip": "203.0.113.56", "source_hosts": ["WS-4471"], "alert_id": "T-1"}, "expect_path": ["sanity", "is_blockable", "enrich", "talkers", "decide", "auto_block", "record", "handoff", "done"]},
+      {"name": "CDN IP must not auto-block", "input": {"destination_ip": "198.51.100.10", "source_hosts": ["WS-1"], "alert_id": "T-2"}, "expect_path": ["sanity", "is_blockable", "enrich", "talkers", "decide", "request_approval"]},
+      {"name": "corporate egress IP is never blocked", "input": {"destination_ip": "203.0.113.1", "source_hosts": ["WS-1"], "alert_id": "T-3"}, "expect_path": ["sanity", "is_blockable", "notify_only", "handoff", "done"]},
+      {"name": "TI platform timeout falls back to human", "fault": "enrich:timeout", "expect_path": ["sanity", "is_blockable", "enrich", "request_approval"]}
+    ]
+  }
+}

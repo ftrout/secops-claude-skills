@@ -1,0 +1,22 @@
+[
+  {
+    "script": "stack.py",
+    "args": ["examples/process_events.csv", "--by", "process", "--group", "host", "--rare-below", "5%"],
+    "expect": ["| process | count | percent | groups (host) | sample groups | rare |", "`svchost.exe` | 8 |", "`anydesk.exe` | 1 |", "RARE"]
+  },
+  {
+    "script": "stack.py",
+    "args": ["examples/process_events.csv", "--by", "parent,process", "--group", "host", "--rare-only", "--order", "asc", "--format", "csv"],
+    "expect": ["parent,process,count,percent,groups,sample_groups,rare", "winword.exe,cmd.exe,1,", "powershell.exe,schtasks.exe,1,"]
+  },
+  {
+    "script": "stack.py",
+    "args": ["examples/dns.jsonl", "--by", "dns.query", "--group", "host", "--rare-groups", "1", "--format", "json"],
+    "expect": ["\"dns.query\": \"updates.evil-domain.example\"", "\"groups\": 1", "\"rare\": true", "\"dns.query\": \"outlook.office365.com\""]
+  },
+  {
+    "script": "stack.py",
+    "args": ["examples/process_events.csv", "--by", "user", "--where", "host=WS-003", "--sample-groups", "0"],
+    "expect": ["`carol`", "`SYSTEM`"]
+  }
+]

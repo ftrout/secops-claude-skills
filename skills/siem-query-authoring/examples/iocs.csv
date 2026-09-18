@@ -1,0 +1,11 @@
+indicator,type,role,confidence,first_seen,source
+203.0.113.56,ipv4,c2,high,2026-09-10,vendor-report-2026-09
+198.51.100.23,ipv4,download,medium,2026-09-10,vendor-report-2026-09
+203[.]0[.]113[.]56,ipv4,c2,high,2026-09-10,vendor-report-2026-09
+evil-domain.example,domain,c2,high,2026-09-10,vendor-report-2026-09
+Updates.Evil-Domain.Example,domain,download,medium,2026-09-10,vendor-report-2026-09
+hxxp://evil-domain[.]example/payload.php,url,download,high,2026-09-10,vendor-report-2026-09
+9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08,sha256,dropped-file,high,2026-09-10,vendor-report-2026-09
+d41d8cd98f00b204e9800998ecf8427e,md5,dropped-file,low,2026-09-10,vendor-report-2026-09
+billing@invoices-fake.example,email,phishing-sender,high,2026-09-10,vendor-report-2026-09
+CVE-2024-3400,cve,,,2026-09-10,vendor-report-2026-09

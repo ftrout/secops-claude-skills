@@ -1,0 +1,22 @@
+[
+  {
+    "script": "timeline_format.py",
+    "args": ["examples/timeline.csv", "--assume-year", "2026"],
+    "expect": ["| 2026-09-14T09:06:55Z |", "out-of-order in source", "duplicate", "tz assumed", "yesterday afternoon", "1 unparsed"]
+  },
+  {
+    "script": "timeline_format.py",
+    "args": ["examples/timeline.json", "--format", "csv", "--gap-hours", "12"],
+    "expect": ["seq,time_utc,t_plus", "2026-09-14T09:06:55Z", "gap 1d 17:27:50"]
+  },
+  {
+    "script": "timeline_format.py",
+    "args": ["examples/timeline.json", "--format", "json", "--t0", "2026-09-14T07:00:00Z"],
+    "expect": ["\"out_of_order\": 1", "\"t0\": \"2026-09-14T07:00:00Z\"", "\"t_plus\": \"+00:42:13\""]
+  },
+  {
+    "script": "timeline_format.py",
+    "args": ["examples/timeline.csv", "--map", "timestamp=Nope"],
+    "exit": 2
+  }
+]

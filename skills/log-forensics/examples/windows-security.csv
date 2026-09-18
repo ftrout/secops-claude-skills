@@ -1,0 +1,11 @@
+TimeCreated,EventID,Computer,SubjectUserName,TargetUserName,LogonType,IpAddress,Message
+9/15/2026 1:58:02 PM,4625,WS-FIN-07.corp.yourcompany.example,-,j.doe,10,203.0.113.77,An account failed to log on. Status: 0xC000006D Sub Status: 0xC000006A
+9/15/2026 1:58:09 PM,4625,WS-FIN-07.corp.yourcompany.example,-,j.doe,10,203.0.113.77,An account failed to log on. Status: 0xC000006D Sub Status: 0xC000006A
+9/15/2026 1:58:41 PM,4624,WS-FIN-07.corp.yourcompany.example,-,j.doe,10,203.0.113.77,An account was successfully logged on. Logon Process: User32 Authentication Package: Negotiate
+9/15/2026 1:58:41 PM,4672,WS-FIN-07.corp.yourcompany.example,j.doe,-,,,Special privileges assigned to new logon. Privileges: SeDebugPrivilege SeBackupPrivilege
+9/15/2026 2:01:15 PM,4688,WS-FIN-07.corp.yourcompany.example,j.doe,-,,,"A new process has been created. New Process Name: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe Creator Process Name: C:\Windows\explorer.exe Process Command Line: powershell.exe -NoProfile -WindowStyle Hidden -EncodedCommand VGhpcyBpcyBub3QgYSByZWFsIGNvbW1hbmQ="
+9/15/2026 2:01:52 PM,4698,WS-FIN-07.corp.yourcompany.example,j.doe,-,,,"A scheduled task was created. Task Name: \Microsoft\Windows\UpdateAgent Task Content: <Exec><Command>C:\Users\Public\Documents\update-agent.exe</Command></Exec>"
+9/15/2026 2:03:30 PM,4624,FS-01.corp.yourcompany.example,-,j.doe,3,10.20.5.17,An account was successfully logged on. Logon Process: Kerberos Authentication Package: Kerberos
+9/15/2026 2:03:31 PM,5140,FS-01.corp.yourcompany.example,j.doe,-,,10.20.5.17,A network share object was accessed. Share Name: \\*\Finance Share Path: \??\D:\Shares\Finance
+9/15/2026 2:47:10 PM,1102,WS-FIN-07.corp.yourcompany.example,j.doe,-,,,The audit log was cleared.
+9/15/2026 5:30:00 PM,4634,FS-01.corp.yourcompany.example,-,j.doe,3,,An account was logged off.

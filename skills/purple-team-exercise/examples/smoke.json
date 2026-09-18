@@ -1,0 +1,12 @@
+[
+  {
+    "script": "scorecard.py",
+    "args": ["examples/scorecard-sample.csv", "--name", "Q3 exercise", "--ttd-sla", "30", "--format", "md"],
+    "expect": ["Detection coverage (alert): 45.8% of tests", "## Gap list (13), prioritized", "T1003.006 DCSync", "Detection backlog (hand to detection-engineering)", "1 over the 30 min SLA"]
+  },
+  {
+    "script": "scorecard.py",
+    "args": ["examples/scorecard-sample.csv", "--format", "json"],
+    "expect": ["\"technique_coverage_pct\": 50.0", "\"test_blind_pct\": 20.8", "\"by_tactic\""]
+  }
+]

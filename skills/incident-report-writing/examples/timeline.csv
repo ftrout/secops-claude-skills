@@ -1,0 +1,13 @@
+timestamp,source,actor,action,evidence
+2026-09-14T07:42:13Z,Email gateway,attacker@invoice-portal-secure.example,Phishing email "Overdue invoice 4471" delivered to 12 recipients,Gateway trace ID MT-88213
+2026-09-14 09:05:40,Proxy,j.doe,Clicked link to hxxps://invoice-portal-secure[.]example/login,Proxy log line 4471820
+2026-09-14T11:06:55+02:00,Entra ID sign-in,j.doe,Successful sign-in from 198.51.100.23 (new ASN) with MFA via push,SigninLogs correlationId 0f3c...
+2026-09-14T09:09:10Z,Exchange audit,j.doe,Inbox rule created: move messages containing "invoice" to RSS Feeds,MailboxAuditLog New-InboxRule
+1789378800,EDR,WS-4471,Unsigned binary executed from C:\Users\j.doe\Downloads\Invoice_4471.exe,EDR detection 91734; SHA-256 in ioc list
+2026-09-14T15:30:00Z,SOC,analyst.k,Alert triaged as P2; host isolation approved by tier 2 lead,INC-2026-0093 triage note
+09/14/2026 10:15:00 AM,EDR,WS-4471,Outbound connection to 203.0.113.56:443 every 60 s (found during scoping),EDR network events; beacon interval analysis
+2026-09-14T15:32:10Z,EDR,analyst.k,Host WS-4471 network-isolated,EDR action log
+2026-09-15T08:10:00Z,IAM,iam.oncall,j.doe sessions revoked and password reset; inbox rule removed,Ticket IAM-5521
+2026-09-15T08:10:00Z,IAM,iam.oncall,j.doe sessions revoked and password reset; inbox rule removed,Ticket IAM-5521
+Sep 15 11:00:00,SIEM,analyst.k,Retro-hunt for SHA-256 and 203.0.113.56 across fleet: 0 additional hits,Saved search HUNT-0093
+yesterday afternoon,Helpdesk,j.doe,User reported the email looked suspicious after the fact,Helpdesk ticket HD-77120

@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "id": "pb-bad-example",
+  "name": "Deliberately unsafe playbook (should fail lint)",
+  "version": "0.1.0",
+  "owner": "someone@yourcompany.example",
+  "description": "Isolates a host with no approval gate, has an unreachable step, a dangling next, a step with no on_failure, and a decision with no default. Used to test playbook_lint.py.",
+  "trigger": {"type": "alert", "source": "edr:any"},
+  "start": "isolate",
+  "steps": [
+    {"id": "isolate", "name": "Isolate host immediately", "type": "containment",
+     "action": "edr.isolate_host", "inputs": {"host": "{{inputs.host}}"},
+     "auto": {"enabled": true, "justification": "faster"},
+     "next": "decide"},
+    {"id": "decide", "name": "Was it bad?", "type": "decision",
+     "branches": [{"when": "true", "next": "notify"}],
+     "on_failure": "abort"},
+    {"id": "notify", "name": "Tell someone", "type": "notification",
+     "action": "chat.post", "on_failure": "continue", "next": "does_not_exist"},
+    {"id": "orphan", "name": "Never reached", "type": "enrichment",
+     "action": "ti.lookup", "on_failure": "abort", "next": "notify"}
+  ]
+}

@@ -1,0 +1,17 @@
+[
+  {
+    "script": "ioc_to_query.py",
+    "args": ["examples/iocs.csv", "--platform", "kql,spl", "--lookback", "90d"],
+    "expect": ["RemoteIP in~ (\"203.0.113.56\", \"198.51.100.23\")", "ago(90d)", "All_Traffic.dest_ip IN (\"203.0.113.56\"", "earliest=-90d", "SHA256 in~ (\"9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08\")", "no field mapping for type `cve`"]
+  },
+  {
+    "script": "ioc_to_query.py",
+    "args": ["examples/iocs.txt", "--platform", "elastic,sql,chronicle", "--chunk", "2"],
+    "expect": ["destination.ip:(\"203.0.113.56\" or \"198.51.100.23\")", "sourceipaddress IN ('203.0.113.56', '198.51.100.23')", "target.ip = \"203.0.113.56\"", "network.email.from = \"billing@invoices-fake.example\"", "target.url = \"http://evil-domain.example/payload.php\""]
+  },
+  {
+    "script": "ioc_to_query.py",
+    "args": ["examples/iocs.csv", "--platform", "kql", "--types", "ipv4", "--kql-let", "--format", "json"],
+    "expect": ["let ioc_ipv4_1 = dynamic([\\\"203.0.113.56\\\", \\\"198.51.100.23\\\"]);", "\"summary\""]
+  }
+]

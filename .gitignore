@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Local Claude settings (keep settings.json shareable, ignore personal overrides)
+.claude/settings.local.json
+
+# Skill eval workspaces and packaged skills
+*-workspace/
+*.skill
+
+# Local customization you do not want to publish
+skills/*/references/environment.local.md
+skills/*/references/allowlist.local.txt

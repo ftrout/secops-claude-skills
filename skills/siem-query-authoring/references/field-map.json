@@ -1,0 +1,172 @@
+{
+  "_comment": "Indicator type -> table/field mapping used by scripts/ioc_to_query.py. Edit freely: add your own tables, remove ones you do not ingest. `source` is the table (KQL), datamodel or index scope (SPL), index pattern (Elastic), table name (SQL) or unused (Chronicle). `op` overrides the KQL operator (in~ default; has_any for substring matches). `time` is the KQL time column or the SQL time predicate with {days}.",
+  "chunk_size": {"kql": 500, "spl": 500, "elastic": 300, "sql": 500, "chronicle": 50},
+
+  "kql": {
+    "ipv4": [
+      {"source": "DeviceNetworkEvents", "field": "RemoteIP", "time": "Timestamp"},
+      {"source": "CommonSecurityLog", "field": "DestinationIP", "time": "TimeGenerated"},
+      {"source": "CommonSecurityLog", "field": "SourceIP", "time": "TimeGenerated"},
+      {"source": "SigninLogs", "field": "IPAddress", "time": "TimeGenerated"},
+      {"source": "OfficeActivity", "field": "ClientIP", "time": "TimeGenerated"},
+      {"source": "EmailEvents", "field": "SenderIPv4", "time": "Timestamp"}
+    ],
+    "ipv6": [
+      {"source": "DeviceNetworkEvents", "field": "RemoteIP", "time": "Timestamp"},
+      {"source": "SigninLogs", "field": "IPAddress", "time": "TimeGenerated"},
+      {"source": "EmailEvents", "field": "SenderIPv6", "time": "Timestamp"}
+    ],
+    "domain": [
+      {"source": "DeviceNetworkEvents", "field": "RemoteUrl", "op": "has_any", "time": "Timestamp"},
+      {"source": "DnsEvents", "field": "Name", "time": "TimeGenerated"},
+      {"source": "EmailEvents", "field": "SenderFromDomain", "time": "Timestamp"},
+      {"source": "EmailUrlInfo", "field": "UrlDomain", "time": "Timestamp"},
+      {"source": "CommonSecurityLog", "field": "RequestURL", "op": "has_any", "time": "TimeGenerated"}
+    ],
+    "url": [
+      {"source": "DeviceNetworkEvents", "field": "RemoteUrl", "time": "Timestamp"},
+      {"source": "EmailUrlInfo", "field": "Url", "time": "Timestamp"},
+      {"source": "UrlClickEvents", "field": "Url", "time": "Timestamp"},
+      {"source": "CommonSecurityLog", "field": "RequestURL", "time": "TimeGenerated"}
+    ],
+    "sha256": [
+      {"source": "DeviceFileEvents", "field": "SHA256", "time": "Timestamp"},
+      {"source": "DeviceProcessEvents", "field": "SHA256", "time": "Timestamp"},
+      {"source": "DeviceImageLoadEvents", "field": "SHA256", "time": "Timestamp"},
+      {"source": "EmailAttachmentInfo", "field": "SHA256", "time": "Timestamp"}
+    ],
+    "sha1": [
+      {"source": "DeviceFileEvents", "field": "SHA1", "time": "Timestamp"},
+      {"source": "DeviceProcessEvents", "field": "SHA1", "time": "Timestamp"}
+    ],
+    "md5": [
+      {"source": "DeviceFileEvents", "field": "MD5", "time": "Timestamp"},
+      {"source": "DeviceProcessEvents", "field": "MD5", "time": "Timestamp"}
+    ],
+    "email": [
+      {"source": "EmailEvents", "field": "SenderFromAddress", "time": "Timestamp"},
+      {"source": "EmailEvents", "field": "SenderMailFromAddress", "time": "Timestamp"}
+    ]
+  },
+
+  "spl": {
+    "ipv4": [
+      {"source": "datamodel=Network_Traffic", "field": "All_Traffic.dest_ip"},
+      {"source": "datamodel=Network_Traffic", "field": "All_Traffic.src_ip"},
+      {"source": "datamodel=Web", "field": "Web.dest"},
+      {"source": "datamodel=Authentication", "field": "Authentication.src"}
+    ],
+    "ipv6": [
+      {"source": "datamodel=Network_Traffic", "field": "All_Traffic.dest_ip"},
+      {"source": "datamodel=Network_Traffic", "field": "All_Traffic.src_ip"}
+    ],
+    "domain": [
+      {"source": "datamodel=Network_Resolution", "field": "DNS.query"},
+      {"source": "datamodel=Web", "field": "Web.url_domain"},
+      {"source": "datamodel=Web", "field": "Web.dest"}
+    ],
+    "url": [
+      {"source": "datamodel=Web", "field": "Web.url"},
+      {"source": "datamodel=Email", "field": "All_Email.url"}
+    ],
+    "sha256": [
+      {"source": "datamodel=Endpoint.Processes", "field": "Processes.process_hash"},
+      {"source": "datamodel=Endpoint.Filesystem", "field": "Filesystem.file_hash"},
+      {"source": "datamodel=Email", "field": "All_Email.file_hash"}
+    ],
+    "sha1": [
+      {"source": "datamodel=Endpoint.Processes", "field": "Processes.process_hash"},
+      {"source": "datamodel=Endpoint.Filesystem", "field": "Filesystem.file_hash"}
+    ],
+    "md5": [
+      {"source": "datamodel=Endpoint.Processes", "field": "Processes.process_hash"},
+      {"source": "datamodel=Endpoint.Filesystem", "field": "Filesystem.file_hash"}
+    ],
+    "email": [
+      {"source": "datamodel=Email", "field": "All_Email.src_user"}
+    ]
+  },
+
+  "elastic": {
+    "ipv4": [
+      {"source": "logs-*", "field": "destination.ip"},
+      {"source": "logs-*", "field": "source.ip"}
+    ],
+    "ipv6": [
+      {"source": "logs-*", "field": "destination.ip"},
+      {"source": "logs-*", "field": "source.ip"}
+    ],
+    "domain": [
+      {"source": "logs-*", "field": "dns.question.name"},
+      {"source": "logs-*", "field": "url.domain"},
+      {"source": "logs-*", "field": "destination.domain"}
+    ],
+    "url": [
+      {"source": "logs-*", "field": "url.full"},
+      {"source": "logs-*", "field": "url.original"}
+    ],
+    "sha256": [
+      {"source": "logs-*", "field": "file.hash.sha256"},
+      {"source": "logs-*", "field": "process.hash.sha256"},
+      {"source": "logs-*", "field": "dll.hash.sha256"}
+    ],
+    "sha1": [
+      {"source": "logs-*", "field": "file.hash.sha1"},
+      {"source": "logs-*", "field": "process.hash.sha1"}
+    ],
+    "md5": [
+      {"source": "logs-*", "field": "file.hash.md5"},
+      {"source": "logs-*", "field": "process.hash.md5"}
+    ],
+    "email": [
+      {"source": "logs-*", "field": "email.from.address"},
+      {"source": "logs-*", "field": "email.sender.address"}
+    ]
+  },
+
+  "sql": {
+    "ipv4": [
+      {"source": "cloudtrail_logs", "field": "sourceipaddress",
+       "time": "from_iso8601_timestamp(eventtime) >= current_timestamp - interval '{days}' day"},
+      {"source": "vpc_flow_logs", "field": "dstaddr",
+       "time": "from_unixtime(start) >= current_timestamp - interval '{days}' day"},
+      {"source": "vpc_flow_logs", "field": "srcaddr",
+       "time": "from_unixtime(start) >= current_timestamp - interval '{days}' day"}
+    ],
+    "domain": [
+      {"source": "route53_resolver_logs", "field": "query_name",
+       "time": "from_iso8601_timestamp(query_timestamp) >= current_timestamp - interval '{days}' day"}
+    ]
+  },
+
+  "chronicle": {
+    "ipv4": [
+      {"source": "udm", "field": "target.ip"},
+      {"source": "udm", "field": "principal.ip"}
+    ],
+    "ipv6": [
+      {"source": "udm", "field": "target.ip"},
+      {"source": "udm", "field": "principal.ip"}
+    ],
+    "domain": [
+      {"source": "udm", "field": "network.dns.questions.name"},
+      {"source": "udm", "field": "target.hostname"}
+    ],
+    "url": [
+      {"source": "udm", "field": "target.url"}
+    ],
+    "sha256": [
+      {"source": "udm", "field": "target.file.sha256"},
+      {"source": "udm", "field": "principal.process.file.sha256"}
+    ],
+    "sha1": [
+      {"source": "udm", "field": "target.file.sha1"}
+    ],
+    "md5": [
+      {"source": "udm", "field": "target.file.md5"}
+    ],
+    "email": [
+      {"source": "udm", "field": "network.email.from"}
+    ]
+  }
+}

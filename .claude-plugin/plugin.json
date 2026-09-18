@@ -1,0 +1,13 @@
+{
+  "name": "secops-skills",
+  "description": "Advanced, customizable Claude skills for security operations teams: triage, detection engineering, threat hunting, phishing and malware analysis, forensics, threat intel, vulnerability management, cloud and identity investigations, and incident reporting.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Frank Trout",
+    "url": "https://github.com/ftrout"
+  },
+  "homepage": "https://github.com/ftrout/secops-claude-skills",
+  "repository": "https://github.com/ftrout/secops-claude-skills",
+  "license": "MIT",
+  "keywords": ["security", "secops", "soc", "incident-response", "threat-hunting", "detection-engineering", "dfir", "threat-intelligence"]
+}

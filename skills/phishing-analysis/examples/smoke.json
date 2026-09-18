@@ -1,0 +1,12 @@
+[
+  {
+    "script": "parse_email_headers.py",
+    "args": ["examples/sample-phish.eml", "--org-domain", "yourcompany.example"],
+    "expect": ["DMARC | **fail**", "198.51.100.77", "203.0.113.45", "ESMTPA", "link_text_mismatch", "lookalike of yourcompany.example", "Invoice-4471.pdf.html", "hxxps://login-yourcompany[.]example"]
+  },
+  {
+    "script": "parse_email_headers.py",
+    "args": ["examples/sample-phish.eml", "--format", "json", "--no-defang"],
+    "expect": ["\"result\": \"fail\"", "\"from_ip\": \"198.51.100.77\"", "\"delay_seconds\": 269", "https://login-yourcompany.example/auth/verify", "f6baaeac22d204d39a2eb5407ae9009654a03da8b7cc25ebfe3093c44ac9c152", "\"wrapper\": \"microsoft-safelinks\""]
+  }
+]

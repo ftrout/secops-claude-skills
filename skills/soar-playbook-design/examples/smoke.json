@@ -1,0 +1,23 @@
+[
+  {
+    "script": "playbook_lint.py",
+    "args": ["examples/phishing-triage.json"],
+    "expect": ["pb-phishing-triage v1.3.0: 0 error(s)"]
+  },
+  {
+    "script": "playbook_lint.py",
+    "args": ["examples/malicious-ip-containment.json", "--format", "json"],
+    "expect": ["\"ok\": true", "\"errors\": []"]
+  },
+  {
+    "script": "playbook_lint.py",
+    "args": ["examples/compromised-account-response.json", "--format", "md"],
+    "expect": ["**Result:** PASS"]
+  },
+  {
+    "script": "playbook_lint.py",
+    "args": ["examples/bad-playbook.json"],
+    "exit": 1,
+    "expect": ["justification of at least 30 characters", "unreachable from start", "points to unknown step 'does_not_exist'", "missing on_failure", "needs a default branch", "no dedupe_key"]
+  }
+]

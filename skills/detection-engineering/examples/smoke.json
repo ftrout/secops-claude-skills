@@ -1,0 +1,19 @@
+[
+  {
+    "script": "sigma_lint.py",
+    "args": ["examples/good-rule.yml"],
+    "expect": ["PASS", "Scheduled Task Created From User-Writable Temp Directory", "0 error(s)"]
+  },
+  {
+    "script": "sigma_lint.py",
+    "args": ["examples/bad-rule.yml", "--format", "json"],
+    "exit": 1,
+    "expect": ["\"passed\": false", "is not a UUID", "wildcard-only", "not YYYY-MM-DD", "missing falsepositives", "references `selection3` which is not defined"]
+  },
+  {
+    "script": "sigma_lint.py",
+    "args": ["examples/", "--format", "md", "--no-info"],
+    "exit": 1,
+    "expect": ["| Rule | Status | Level | Check | Message |", "PASS", "FAIL"]
+  }
+]

@@ -1,0 +1,40 @@
+# High-risk CloudTrail event names for cloudtrail_summarize.py --high-risk
+# Format: EventName,reason shown in the report. Lines starting with # are ignored.
+# This file REPLACES the built-in list when passed; start from the defaults and prune or
+# extend for your environment. Use --extra-risk to add a few without replacing.
+ConsoleLogin,console sign-in
+CreateAccessKey,new long-lived credential
+CreateLoginProfile,console password set on a user
+UpdateLoginProfile,console password changed
+CreateUser,new IAM principal
+AttachUserPolicy,privilege change
+AttachRolePolicy,privilege change
+PutUserPolicy,inline privilege change
+PutRolePolicy,inline privilege change
+CreatePolicyVersion,managed policy rewritten
+SetDefaultPolicyVersion,policy version swap
+UpdateAssumeRolePolicy,role trust policy changed
+DeactivateMFADevice,MFA removed
+CreateSAMLProvider,federation trust added
+StopLogging,CloudTrail disabled
+DeleteTrail,CloudTrail deleted
+UpdateTrail,CloudTrail reconfigured
+PutEventSelectors,CloudTrail data events changed
+DeleteFlowLogs,VPC flow logs removed
+DeleteDetector,GuardDuty disabled
+StopConfigurationRecorder,AWS Config disabled
+PutBucketPolicy,bucket policy changed
+PutBucketAcl,bucket ACL changed
+DeletePublicAccessBlock,public access block removed
+ModifySnapshotAttribute,snapshot shared
+ModifyDBSnapshotAttribute,RDS snapshot shared
+GetSecretValue,secret read
+BatchGetSecretValue,bulk secret read
+GetParametersByPath,SSM parameter enumeration
+ScheduleKeyDeletion,KMS key deletion scheduled
+RunInstances,compute launched
+SendCommand,SSM command executed on instance
+AuthorizeSecurityGroupIngress,inbound rule opened
+LeaveOrganization,account left org
+AssumeRoleWithSAML,federated role assumption
+AssumeRoleWithWebIdentity,web identity role assumption

@@ -1,0 +1,10 @@
+{
+  "alert_id": "EDR-2026-091734",
+  "title": "Suspicious LSASS memory access from unsigned binary on FS01",
+  "confidence": 4,
+  "impact": 4,
+  "asset_criticality": 4,
+  "spread": 1,
+  "data_sensitivity": "high",
+  "notes": "Parent process was a renamed archive utility launched from a user Downloads folder; no matching change ticket."
+}

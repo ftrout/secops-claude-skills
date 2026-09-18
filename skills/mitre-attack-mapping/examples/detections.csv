@@ -1,0 +1,12 @@
+technique_id,tactic,comment
+T1566,initial-access,Mail gateway attachment sandboxing plus DET-0012 (parent covers .001 and .002)
+T1059.001,execution,DET-0031 encoded PowerShell; DET-0032 download cradle
+T1204.002,execution,DET-0040 Office/explorer spawning script hosts
+T1547.001,persistence,DET-0050 Run key writes from non-installer processes
+T1003.001,credential-access,DET-0060 LSASS handle access (EDR native)
+T1087.002,discovery,DET-0070 net group domain admins
+T1021.001,lateral-movement,DET-0080 RDP from workstation to server
+T1071.001,command-and-control,DET-0090 beaconing detection (proxy)
+T1486,impact,DET-0100 mass file rename with new extension
+T1490,impact,DET-0101 vssadmin / wmic shadowcopy delete
+T1055,defense-evasion,DET-0110 CreateRemoteThread into unrelated process (not in threat profile)

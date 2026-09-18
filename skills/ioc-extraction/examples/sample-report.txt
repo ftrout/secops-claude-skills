@@ -1,0 +1,11 @@
+THREAT ADVISORY (synthetic sample for testing; all indicators are fictional or RFC 5737/3849 ranges)
+
+The actor used hxxp://evil-domain[.]example/payload.php and hxxps://cdn[.]bad-site[.]net/x for C2.
+Beacon to 203.0.113.56 on port 4444. Internal host 10.0.0.5 was infected.
+Version 10.0.19041.1 of Windows was targeted. Payload SHA256:
+3a7bd3e2360a3d29eea436fcfb7e44c735d117c42d1c1835420b6b9942dd4f1b
+MD5 d41d8cd98f00b204e9800998ecf8427e, dropped C:\Users\Public\update.exe and /tmp/.x/kworker
+Persistence via HKCU\Software\Microsoft\Windows\CurrentVersion\Run\Updater
+Sender: billing[@]invoices-fake[.]com. Exploits CVE-2024-3400.
+See https://www.microsoft.com/security for vendor guidance (not an indicator).
+Ransom wallet bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq

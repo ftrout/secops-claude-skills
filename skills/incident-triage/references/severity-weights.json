@@ -1,0 +1,39 @@
+{
+  "_comment": "Edit me. Read by scripts/triage_score.py. Keys you omit fall back to the script defaults. score = 100 * weighted_mean(impact, asset_criticality, spread, data_sensitivity)/5 * (confidence/5)^confidence_exponent. Floors fire when every listed factor is >= the value; ceilings fire when every listed factor is <= the value. See references/severity-matrix.md.",
+  "scale_max": 5,
+  "confidence_exponent": 1.0,
+  "weights": {
+    "impact": 1.2,
+    "asset_criticality": 1.0,
+    "spread": 0.8,
+    "data_sensitivity": 0.8
+  },
+  "tiers": [
+    {"name": "P1", "min_score": 75, "label": "Critical: page on-call, incident commander now"},
+    {"name": "P2", "min_score": 50, "label": "High: work immediately, escalate to tier 2 / IR"},
+    {"name": "P3", "min_score": 25, "label": "Medium: work this shift, tier 1 owns"},
+    {"name": "P4", "min_score": 0, "label": "Low: queue, tune, or close with note"}
+  ],
+  "floors": [
+    {"when": {"confidence": 5, "impact": 5}, "min_tier": "P1",
+     "reason": "confirmed business-critical impact is always P1"},
+    {"when": {"confidence": 5, "asset_criticality": 5}, "min_tier": "P2",
+     "reason": "confirmed activity on a crown-jewel asset is never below P2"},
+    {"when": {"confidence": 4, "data_sensitivity": 5}, "min_tier": "P2",
+     "reason": "likely-true activity touching regulated data has notification clocks attached"},
+    {"when": {"confidence": 3, "spread": 5}, "min_tier": "P2",
+     "reason": "plausible org-wide spread needs coordination regardless of per-host impact"}
+  ],
+  "ceilings": [
+    {"when": {"confidence": 1}, "max_tier": "P4",
+     "reason": "a probable false positive should be tuned, not escalated"},
+    {"when": {"impact": 1, "confidence": 3}, "max_tier": "P3",
+     "reason": "blocked before execution with no confirmation is a tuning task, not an incident"}
+  ],
+  "aliases": {
+    "low": 1, "minimal": 1, "none": 1,
+    "medium": 3, "moderate": 3, "unknown": 3,
+    "high": 4, "likely": 4,
+    "critical": 5, "confirmed": 5, "severe": 5
+  }
+}

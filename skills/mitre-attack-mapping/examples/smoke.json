@@ -1,0 +1,17 @@
+[
+  {
+    "script": "navigator_layer.py",
+    "args": ["examples/mapping.csv", "--name", "INC-2026-0142", "--attack-version", "17"],
+    "expect": ["\"name\": \"INC-2026-0142\"", "\"attack\": \"17\"", "\"layer\": \"4.5\"", "\"techniqueID\": \"T1059.001\"", "\"tactic\": \"execution\""]
+  },
+  {
+    "script": "navigator_layer.py",
+    "args": ["examples/mapping.json", "--platforms", "Windows", "--compact"],
+    "expect": ["\"techniqueID\":\"T1003.006\"", "\"platforms\":[\"Windows\"]"]
+  },
+  {
+    "script": "navigator_layer.py",
+    "args": ["--diff", "examples/threat_profile.csv", "examples/detections.csv", "--name", "Coverage gaps"],
+    "expect": ["\"name\": \"Coverage gaps\"", "GAP: in threat_profile.csv, not in detections.csv | Kerberoasting", "covered: in threat_profile.csv and detections.csv | Credential-harvest links", "\"legendItems\""]
+  }
+]

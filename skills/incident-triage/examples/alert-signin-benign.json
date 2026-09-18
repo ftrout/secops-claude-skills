@@ -1,0 +1,10 @@
+{
+  "alert_id": "IDP-2026-004411",
+  "title": "Sign-in from new country for j.doe@yourcompany.example",
+  "confidence": 1,
+  "impact": 2,
+  "asset_criticality": 2,
+  "spread": 1,
+  "data_sensitivity": 2,
+  "notes": "User is on the approved travel list for this week; MFA satisfied with the registered authenticator; device is corporate-managed."
+}

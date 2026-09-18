@@ -1,0 +1,25 @@
+technique_id,technique,tactic,test_name,test_id,platform,expected_source,observed,ttd_minutes,priority,notes
+T1566.001,Spearphishing Attachment,Initial Access,Download Macro-Enabled Phishing Attachment,ART #1,windows,Email gateway + EDR file create,alert,4,1,Gateway quarantined; EDR alerted on file write
+T1204.002,Malicious File,Execution,OSTap Style Macro Execution,ART #1,windows,EDR process tree (Word -> cmd),alert,2,1,
+T1059.001,PowerShell,Execution,PowerShell Fileless Script Execution,ART #10,windows,Sysmon 1 + PowerShell 4104,logged,,2,4104 present; no rule on encoded command from Office parent
+T1059.001,PowerShell,Execution,Powershell Invoke-DownloadCradle,ART #9,windows,Sysmon 1 + PowerShell 4104,alert,11,2,
+T1547.001,Registry Run Keys / Startup Folder,Persistence,Reg Key Run,ART #1,windows,Sysmon 13,alert,25,2,
+T1053.005,Scheduled Task,Persistence,Scheduled task Local,ART #2,windows,Security 4698,none,,2,4698 not forwarded from workstations
+T1543.003,Windows Service,Persistence,Service Installation CMD,ART #2,windows,System 7045 + Security 4697,logged,,2,7045 forwarded; no rule for service binary in user-writable path
+T1548.002,Bypass User Account Control,Privilege Escalation,Bypass UAC using Fodhelper,ART #3,windows,Sysmon 1 + 13,logged,,3,
+T1562.001,Impair Defenses: Disable or Modify Tools,Defense Evasion,Tamper with Windows Defender Registry,ART,windows,Sysmon 13 + Defender 5001,alert,3,1,Defender tamper protection blocked and alerted
+T1070.001,Clear Windows Event Logs,Defense Evasion,Clear Logs,ART #1,windows,Security 1102,alert,6,1,
+T1003.001,LSASS Memory,Credential Access,Dump LSASS.exe Memory using ProcDump,ART #1,windows,Sysmon 10 + EDR,alert,1,1,EDR blocked handle open
+T1003.001,LSASS Memory,Credential Access,Dump LSASS.exe Memory using comsvcs.dll,ART #2,windows,Sysmon 10 + EDR,logged,,1,Sysmon 10 present; EDR did not fire on rundll32 MiniDump
+T1558.003,Kerberoasting,Credential Access,Request for service tickets,ART #1,windows,Security 4769 (DC),none,,1,4769 not collected from DCs (volume concern)
+T1003.006,DCSync,Credential Access,DCSync (Active Directory),ART #1,windows,Security 4662 (DC),none,,1,No SACL for replication rights on domain object
+T1087.002,Domain Account Discovery,Discovery,Enumerate all accounts via PowerShell (Domain),ART #2,windows,PowerShell 4104,logged,,4,Expected noise; low priority
+T1018,Remote System Discovery,Discovery,Remote System Discovery - nltest,ART #3,windows,Sysmon 1,logged,,4,
+T1021.002,SMB/Windows Admin Shares,Lateral Movement,Copy and Execute File with PsExec,ART #3,windows,Security 4624 type 3 + 7045 + Sysmon 3,alert,9,1,
+T1021.006,Windows Remote Management,Lateral Movement,Remote Code Execution with PS Credentials Using Invoke-Command,ART #2,windows,Security 4624 + WinRM operational,logged,,2,
+T1048.003,Exfiltration Over Unencrypted Non-C2 Protocol,Exfiltration,Exfiltration Over Alternative Protocol - DNS,ART #3,windows,DNS logs (resolver),none,,2,Resolver query logging not enabled
+T1490,Inhibit System Recovery,Impact,Windows - Delete Volume Shadow Copies,ART #1,windows,Sysmon 1 + EDR,alert,2,1,
+T1078.004,Cloud Accounts,Initial Access,aws.initial-access.console-login-without-mfa,stratus,aws,CloudTrail ConsoleLogin,alert,45,1,GuardDuty did not fire; SIEM rule fired late (hourly schedule)
+T1098.001,Additional Cloud Credentials,Persistence,aws.persistence.iam-backdoor-user,stratus,aws,CloudTrail CreateAccessKey,logged,,1,CloudTrail present; no rule
+T1562.008,Disable or Modify Cloud Logs,Defense Evasion,aws.defense-evasion.cloudtrail-stop,stratus,aws,CloudTrail StopLogging,alert,7,1,
+T1530,Data from Cloud Storage,Collection,aws.exfiltration.s3-backdoor-bucket-policy,stratus,aws,CloudTrail PutBucketPolicy,none,,1,Rule exists but keyed on wrong eventSource
