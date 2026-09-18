@@ -80,6 +80,11 @@ Optional frontmatter that is welcome when it fits: `argument-hint`, `allowed-too
 
 - Python 3.10+, **standard library only**. Teams should be able to run these on a locked-down
   analyst workstation with no `pip install`.
+- **Test against the floor, not just your interpreter.** 3.10 is the floor and CI enforces it.
+  Some syntax that 3.12+ accepts is a `SyntaxError` on 3.10 and 3.11, most commonly reusing a
+  quote character inside an f-string expression (`f"{v.replace('a', "b")}"`, legal only from
+  3.12 under PEP 701). Compute the value first and interpolate the variable. Check with
+  `uv run --no-project --python 3.10 python scripts/validate_skills.py`.
 - Module docstring with usage examples. `argparse` with `--help`. Read from a file path or `-`
   for stdin. Write to stdout. Exit codes: 0 success, 2 bad input.
 - Deterministic and side-effect free: parse, normalize, score, format. Never fetch a URL,

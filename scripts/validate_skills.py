@@ -142,6 +142,18 @@ def main() -> int:
         all_errors.extend(errs)
 
     print(f"\n{len(dirs)} skills checked, {len(all_errors)} problems")
+
+    # Compiling only proves the scripts parse under the interpreter running right now.
+    # The support floor is 3.10, and some syntax that 3.12+ accepts (notably reusing a quote
+    # character inside an f-string expression, PEP 701) is a SyntaxError on 3.10 and 3.11.
+    # CI tests the floor; say so here, because a green local run on a new interpreter is not
+    # the same as a green CI run.
+    if not args.no_run and sys.version_info[:2] >= (3, 12):
+        print(f"note: ran on Python {sys.version_info.major}.{sys.version_info.minor}; "
+              f"the support floor is 3.10 and CI tests it.\n"
+              f"      check the floor locally with: "
+              f"uv run --no-project --python 3.10 python scripts/validate_skills.py")
+
     return 1 if all_errors else 0
 
 
